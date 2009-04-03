@@ -3,6 +3,7 @@
 	<name>LOGIN_SERVICE</name>
 	<comment></comment>
 	<projects>
+		<project>LOGIN_COMMON</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

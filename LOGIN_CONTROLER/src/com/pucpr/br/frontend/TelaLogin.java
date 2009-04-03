@@ -2,7 +2,6 @@ package com.pucpr.br.frontend;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.LayoutManager2;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
