@@ -7,7 +7,6 @@ import com.pucpr.br.intc.dao.DAOUsuario;
 
 public class DAOFactorySQL extends DAOFactory {
 
-	@Override
 	public DAOPapel getDAOPapel() {
 		// TODO Auto-generated method stub
 		return null;
