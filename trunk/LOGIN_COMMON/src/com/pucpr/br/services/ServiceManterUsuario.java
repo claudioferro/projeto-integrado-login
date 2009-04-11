@@ -1,5 +1,6 @@
 package com.pucpr.br.services;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.pucpr.br.dto.UsuarioDTO;
