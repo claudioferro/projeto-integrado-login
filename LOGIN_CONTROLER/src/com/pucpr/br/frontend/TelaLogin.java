@@ -1,16 +1,22 @@
 package com.pucpr.br.frontend;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import org.jvnet.substance.skin.SubstanceBusinessBlueSteelLookAndFeel;
+
+import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
+import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 
 /**
  * @author Thiago Alves
@@ -25,9 +31,6 @@ public class TelaLogin extends JFrame {
 	/** serialVersionUID */
 	private static final long serialVersionUID = 1L;
 
-	private JLabel lbLogin;
-	private JLabel lbSenha;
-
 	private JTextField txtLogin;
 	private JTextField txtSenha;
 
@@ -38,6 +41,8 @@ public class TelaLogin extends JFrame {
 	private JPanel panelCampos;
 	private JPanel panelBotoes;
 
+	private ListnerBotoes listnerBotoes = new ListnerBotoes();
+
 	public TelaLogin() {
 
 		inicializarComponentes();
@@ -46,10 +51,6 @@ public class TelaLogin extends JFrame {
 		setTitle(ConstantsFrontEnd.LOGIN_TITULO_TELA_LOGIN);
 		// Define fechamento da tela
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Define o layout do frame
-		// BorderLayout borderLayout = new BorderLayout(5,5);
-		// setLayout(borderLayout);
 
 		// Recupera o tamanho da tela
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit()
@@ -63,16 +64,17 @@ public class TelaLogin extends JFrame {
 	private void inicializarComponentes() {
 
 		// Inicializando paineis
-		panelCampos = new JPanel(new GridLayout(2, 2, 10, 10));
+		panelCampos = new JPanel(new GridBagLayout());
+
 		panelBotoes = new JPanel(new GridLayout(1, 3, 5, 5));
 
-		//Adiciona componentes no painel de campos
-		panelCampos.add(getLabelLogin());
-		panelCampos.add(getTextLogin());
-		panelCampos.add(getLabelSenha());
-		panelCampos.add(getTextSenha());
-		
-		//Adiciona componentes no painel de botoes
+		// Adiciona componentes no painel de campos
+		GridBagLayoutUtils.add(panelCampos, ConstantsFrontEnd.LOGIN_LOGIN,
+				getTextLogin());
+		GridBagLayoutUtils.add(panelCampos, ConstantsFrontEnd.LOGIN_SENHA,
+				getTextSenha());
+
+		// Adiciona componentes no painel de botoes
 		panelBotoes.add(getBotaoConfirmar());
 		panelBotoes.add(getBotaoCancelar());
 		panelBotoes.add(getBotaoNovoUsuario());
@@ -86,6 +88,8 @@ public class TelaLogin extends JFrame {
 	private JButton getBotaoConfirmar() {
 
 		btnConfirmar = new JButton(ConstantsFrontEnd.LOGIN_CONFIRMAR);
+		btnConfirmar.setActionCommand(ConstantsFrontEnd.LOGIN_CONFIRMAR);
+		btnConfirmar.addActionListener(listnerBotoes);
 		return btnConfirmar;
 	}
 
@@ -100,19 +104,7 @@ public class TelaLogin extends JFrame {
 		btnCancelar = new JButton(ConstantsFrontEnd.LOGIN_CANCELAR);
 		return btnCancelar;
 	}
-	
-	private JLabel getLabelLogin() {
 
-		lbLogin = new JLabel(ConstantsFrontEnd.LOGIN_LOGIN);
-		return lbLogin;
-	}
-	
-	private JLabel getLabelSenha() {
-
-		lbSenha = new JLabel(ConstantsFrontEnd.LOGIN_SENHA);
-		return lbSenha;
-	}
-	
 	private JTextField getTextLogin() {
 
 		txtLogin = new JTextField();
@@ -121,7 +113,7 @@ public class TelaLogin extends JFrame {
 
 	private JTextField getTextSenha() {
 
-		txtSenha= new JTextField();
+		txtSenha = new JTextField();
 		return txtSenha;
 	}
 
@@ -142,4 +134,23 @@ public class TelaLogin extends JFrame {
 
 	}
 
+	private class ListnerBotoes implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			if (e.getActionCommand().equals(ConstantsFrontEnd.LOGIN_CONFIRMAR)) {
+				System.exit(0);
+			} else {
+				if (e.getActionCommand().equals(
+						ConstantsFrontEnd.LOGIN_CANCELAR)) {
+					// TODO Chama o command
+				} else {
+					if (e.getActionCommand().equals(
+							ConstantsFrontEnd.LOGIN_NOVO_USUARIO)) {
+						// TODO Chama o command
+					}
+				}
+			}
+		}
+
+	}
 }
