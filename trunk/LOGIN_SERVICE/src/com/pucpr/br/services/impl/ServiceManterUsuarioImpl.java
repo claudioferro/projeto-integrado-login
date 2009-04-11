@@ -1,8 +1,6 @@
 package com.pucpr.br.services.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import com.pucpr.br.dto.UsuarioDTO;
@@ -14,36 +12,52 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 
 	public boolean alterarUsuario(UsuarioDTO usuario) {
 
-		return false;
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		return factory.getDAOUsuario().alterarUsuario(usuario);
 	}
 
 	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) {
-		return null;
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		return factory.getDAOUsuario().buscarUsuario(usuario);
 	}
 
 	public boolean excluirUsuario(UsuarioDTO usuario) {
-		return false;
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		return factory.getDAOUsuario().excluirUsuaio(usuario);
 	}
 
 	public boolean incluirUsuario(UsuarioDTO usuario) {
-		return false;
+
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		return factory.getDAOUsuario().inserirUsuario(usuario);
 	}
 
 	public List<UsuarioDTO> listarUsuarios() {
 		ArrayList<UsuarioDTO> listaUsuarios = new ArrayList<UsuarioDTO>();
-		
+
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactory.SQL);
-		listaUsuarios = (ArrayList<UsuarioDTO>) factory.getDAOUsuario().listarUsuarios();
-		
-		
+		listaUsuarios = (ArrayList<UsuarioDTO>) factory.getDAOUsuario()
+				.listarUsuarios();
+
 		return listaUsuarios;
 
 	}
-	
-	public static void main(String[] args) {
-		ServiceManterUsuarioImpl impl = new ServiceManterUsuarioImpl();
-		
-		impl.listarUsuarios();
-	}
 
+	public static void main(String[] args) {
+		
+		ServiceManterUsuarioImpl impl = new ServiceManterUsuarioImpl();
+
+		UsuarioDTO usuario = new UsuarioDTO();
+
+		usuario.setLogin("rony");
+		usuario.setNome("rony");
+		usuario.setSenha("rony");
+	
+		impl.incluirUsuario(usuario);
+
+	}
 }

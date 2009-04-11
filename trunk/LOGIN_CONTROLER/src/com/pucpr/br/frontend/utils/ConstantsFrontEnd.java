@@ -1,4 +1,4 @@
-package com.pucpr.br.frontend;
+package com.pucpr.br.frontend.utils;
 
 public class ConstantsFrontEnd {
 	
