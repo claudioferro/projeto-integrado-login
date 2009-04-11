@@ -2,6 +2,7 @@ package com.pucpr.br.intc.dao.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -16,9 +17,9 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		Connection con = Conexao.obterInstancia().obterConexao();
 		try {
 			PreparedStatement pst = con.prepareStatement(montaAlterarUsuario());
-			
+
 			int result = pst.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -39,6 +40,24 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	}
 
 	public Collection<UsuarioDTO> listarUsuarios() {
+
+		Connection con = Conexao.obterInstancia().obterConexao();
+		try {
+			PreparedStatement pst = con.prepareStatement(montaListarUsuarios());
+
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+
+				String nome = rs.getString(1);
+
+				System.out.println(nome);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 
@@ -54,4 +73,15 @@ public class DAOUsuarioSQL implements DAOUsuario {
 
 		return sql.toString();
 	}
+
+	private String montaListarUsuarios() {
+
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("SELECT * ");
+		sql.append(" FROM ");
+		sql.append(" 	usuario");
+		return sql.toString();
+	}
+
 }

@@ -4,6 +4,7 @@ import com.pucpr.br.factory.dao.DAOFactory;
 import com.pucpr.br.intc.dao.DAOPapel;
 import com.pucpr.br.intc.dao.DAOPermissao;
 import com.pucpr.br.intc.dao.DAOUsuario;
+import com.pucpr.br.intc.dao.sql.DAOUsuarioSQL;
 
 public class DAOFactorySQL extends DAOFactory {
 
@@ -21,7 +22,7 @@ public class DAOFactorySQL extends DAOFactory {
 	@Override
 	public DAOUsuario getDAOUsuario() {
 		// TODO Auto-generated method stub
-		return null;
+		return new DAOUsuarioSQL();
 	}
 	
 	
