@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -15,6 +16,7 @@ import javax.swing.UIManager;
 
 import org.jvnet.substance.skin.SubstanceBusinessBlueSteelLookAndFeel;
 
+import com.pucpr.br.command.FrontController;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 
@@ -138,7 +140,13 @@ public class TelaLogin extends JFrame {
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand().equals(ConstantsFrontEnd.LOGIN_CONFIRMAR)) {
-				System.exit(0);
+				HashMap<String, Object> data = new HashMap<String, Object>();
+				data.put(ConstantsFrontEnd.LOGIN_LOGIN, txtLogin.getText());
+				data.put(ConstantsFrontEnd.LOGIN_SENHA, txtSenha.getText());
+
+				FrontController.executeCommand(
+						ConstantsFrontEnd.LOGIN_CONFIRMAR, data);
+
 			} else {
 				if (e.getActionCommand().equals(
 						ConstantsFrontEnd.LOGIN_CANCELAR)) {

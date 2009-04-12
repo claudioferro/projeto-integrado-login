@@ -1,5 +1,6 @@
 package com.pucpr.br.services.impl;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,33 +11,33 @@ import com.pucpr.br.services.ServiceManterUsuario;
 
 public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 
-	public boolean alterarUsuario(UsuarioDTO usuario) {
+	public boolean alterarUsuario(UsuarioDTO usuario) throws RemoteException {
 
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
 		return factory.getDAOUsuario().alterarUsuario(usuario);
 	}
 
-	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) {
+	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) throws RemoteException {
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
 		return factory.getDAOUsuario().buscarUsuario(usuario);
 	}
 
-	public boolean excluirUsuario(UsuarioDTO usuario) {
+	public boolean excluirUsuario(UsuarioDTO usuario) throws RemoteException {
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
 		return factory.getDAOUsuario().excluirUsuaio(usuario);
 	}
 
-	public boolean incluirUsuario(UsuarioDTO usuario) {
+	public boolean incluirUsuario(UsuarioDTO usuario) throws RemoteException {
 
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
 		return factory.getDAOUsuario().inserirUsuario(usuario);
 	}
 
-	public List<UsuarioDTO> listarUsuarios() {
+	public List<UsuarioDTO> listarUsuarios() throws RemoteException {
 		ArrayList<UsuarioDTO> listaUsuarios = new ArrayList<UsuarioDTO>();
 
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactory.SQL);
@@ -47,8 +48,8 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 
 	}
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws RemoteException {
+
 		ServiceManterUsuarioImpl impl = new ServiceManterUsuarioImpl();
 
 		UsuarioDTO usuario = new UsuarioDTO();
@@ -56,7 +57,7 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 		usuario.setLogin("rony");
 		usuario.setNome("rony");
 		usuario.setSenha("rony");
-	
+
 		impl.incluirUsuario(usuario);
 
 	}
