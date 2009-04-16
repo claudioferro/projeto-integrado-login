@@ -11,128 +11,150 @@ import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.intc.dao.DAOUsuario;
 import com.pucpr.br.uteis.Conexao;
 
+
 public class DAOUsuarioSQL implements DAOUsuario {
 
+	
+	
 	public boolean alterarUsuario(UsuarioDTO usuario) {
-
-		Connection con = Conexao.obterInstancia().obterConexao();
+		
+		boolean retorno = false;
+		Connection con  = null;
+		
 		try {
+			con = Conexao.obterInstancia().obterConexao();
+			
 			PreparedStatement pst = con.prepareStatement(montaAlterarUsuario());
+			
 			pst.setString(1, usuario.getNome());
 			pst.setString(2, usuario.getSenha());
 			pst.setString(3, usuario.getLogin());
 
-			int result = pst.executeUpdate();
-
-			if (result != 0) {
-				return true;
-			} else {
-				return false;
-			}
+			if(pst.executeUpdate() > 0)
+				retorno = true;
+			
+			pst.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
-			// TODO: fechar conexao
-
+			try {
+				if(con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return false;
+		return retorno;
 	}
 
 	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) {
 
-		// TODO: melhorar a logica de busca
-
-		Connection con = Conexao.obterInstancia().obterConexao();
+		Connection con = null;
+		
 		try {
-			PreparedStatement pst = con.prepareStatement(montaBuscarUsuario());
+			con = Conexao.obterInstancia().obterConexao();
+			
+			PreparedStatement pst = con.prepareStatement(montaBuscarUsuario(usuario));
+			
 			pst.setString(1, usuario.getLogin());
 
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
-
 				usuario.setNome(rs.getString("nome"));
 				usuario.setLogin(rs.getString("login"));
 				usuario.setSenha(rs.getString("senha"));
-
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
-			// TODO: fechar conexao
-
+				try {
+					if(con != null)
+						con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
-
 		return usuario;
-
 	}
 
 	public boolean excluirUsuaio(UsuarioDTO usuario) {
-		Connection con = Conexao.obterInstancia().obterConexao();
+		
+		boolean retorno = false;
+		Connection con  = null;
+		
 		try {
+			con = Conexao.obterInstancia().obterConexao();
+			
 			PreparedStatement pst = con.prepareStatement(montaDeletarUsuario());
 
 			pst.setString(1, usuario.getLogin());
 			pst.setString(2, usuario.getNome());
 			pst.setString(3, usuario.getSenha());
 
-			int result = pst.executeUpdate();
-
-			if (result != 0) {
-				return true;
-			} else {
-				return false;
-			}
+			if(pst.executeUpdate() > 0)
+				retorno = true;
+			
+			pst.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
-			// TODO: fechar conexao
-
+			if(con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {					
+					e.printStackTrace();
+				}
 		}
-		return false;
-
+		return retorno;
 	}
 
 	public boolean inserirUsuario(UsuarioDTO usuario) {
-		Connection con = Conexao.obterInstancia().obterConexao();
+		
+		boolean retorno = false;
+		Connection con  = null;
+		
 		try {
+			con  = Conexao.obterInstancia().obterConexao();
+			
 			PreparedStatement pst = con.prepareStatement(montaInserirUsuario());
 
 			pst.setString(1, usuario.getLogin());
 			pst.setString(2, usuario.getNome());
 			pst.setString(3, usuario.getSenha());
 
-			int result = pst.executeUpdate();
-
-			if (result != 0) {
-				return true;
-			} else {
-				return false;
-			}
+			if(pst.executeUpdate() > 0)
+				retorno = true;
+			
+			pst.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
-			// TODO: fechar conexao
-
+			if(con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
-		return false;
+		return retorno;
 	}
 
 	public Collection<UsuarioDTO> listarUsuarios() {
 
-		Connection con = Conexao.obterInstancia().obterConexao();
 		Collection<UsuarioDTO> listaUsuarios = new ArrayList<UsuarioDTO>();
-		UsuarioDTO usuarioDTO;
+		Connection con = null;
+		UsuarioDTO usuarioDTO = null;
+		
 		try {
+			con = Conexao.obterInstancia().obterConexao();
+			
 			PreparedStatement pst = con.prepareStatement(montaListarUsuarios());
+			
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
@@ -148,11 +170,13 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
-			// TODO: fechar conexao
-
+			if(con != null)
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
-
 		return listaUsuarios;
 	}
 
@@ -211,20 +235,30 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return sql.toString();
 	}
 
-	private String montaBuscarUsuario() {
+	private String montaBuscarUsuario(UsuarioDTO usuario) {
 
 		StringBuffer sql = new StringBuffer();
 
-		sql.append("SELECT ");
-		sql.append("	login, ");
-		sql.append("	nome, ");
-		sql.append("	senha ");
-		sql.append("FROM ");
-		sql.append("	usuario ");
-		sql.append("WHERE");
-		sql.append("	login = ?  ");
+		if(usuario.getLogin() != null){
+			sql.append("SELECT ");
+			sql.append("	login, ");
+			sql.append("	nome, ");
+			sql.append("	senha ");
+			sql.append("FROM ");
+			sql.append("	usuario ");
+			sql.append("WHERE");
+			sql.append("	login = ?  ");
+		}else{
+			sql.append("SELECT ");
+			sql.append("	login, ");
+			sql.append("	nome, ");
+			sql.append("	senha ");
+			sql.append("FROM ");
+			sql.append("	usuario ");
+			sql.append("WHERE");
+			sql.append("	usuario = ?  ");
+		}
 
 		return sql.toString();
 	}
-
 }
