@@ -11,11 +11,19 @@ import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.intc.dao.DAOUsuario;
 import com.pucpr.br.uteis.Conexao;
 
-
+/**
+ * Esta classe prevê acesso a base de dados para o objeto Usuario.
+ * 
+ */
 public class DAOUsuarioSQL implements DAOUsuario {
 
 	
-	
+	/**
+	 * Método responsável por efetuar a alteração dos dados do usuário.
+	 * 
+	 * @param usuario
+	 * @return boolean
+	 */
 	public boolean alterarUsuario(UsuarioDTO usuario) {
 		
 		boolean retorno = false;
@@ -47,7 +55,13 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		}
 		return retorno;
 	}
-
+	
+	/**
+	 * Método responsável por buscar um usuário específico.
+	 * 
+	 * @param usuario
+	 * @return UsuarioDTO
+	 */
 	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) {
 
 		Connection con = null;
@@ -79,7 +93,12 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		}
 		return usuario;
 	}
-
+	/**
+	 * Método responsável por excluir um determinado usuário.
+	 * 
+	 * @param usuario
+	 * @return boolean
+	 */
 	public boolean excluirUsuaio(UsuarioDTO usuario) {
 		
 		boolean retorno = false;
@@ -112,6 +131,12 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return retorno;
 	}
 
+	/**
+	 * Método responsável para fazer a inserção de um novo usuário.
+	 * 
+	 * @param usuario
+	 * @return boolean
+	 */
 	public boolean inserirUsuario(UsuarioDTO usuario) {
 		
 		boolean retorno = false;
@@ -144,6 +169,11 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return retorno;
 	}
 
+	/**
+	 * Método responsável por retornar uma lista de todos os usuários
+	 * 
+	 * @return Collection UsuarioDTO
+	 */
 	public Collection<UsuarioDTO> listarUsuarios() {
 
 		Collection<UsuarioDTO> listaUsuarios = new ArrayList<UsuarioDTO>();
@@ -180,6 +210,10 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return listaUsuarios;
 	}
 
+	/**
+	 * Monsta o sql para atualização do usuário
+	 * @return String sql
+	 */
 	private String montaAlterarUsuario() {
 
 		StringBuffer sql = new StringBuffer();
@@ -195,6 +229,10 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return sql.toString();
 	}
 
+	/**
+	 * Monta o sql para atualização do usuário
+	 * @return String sql
+	 */
 	private String montaListarUsuarios() {
 
 		StringBuffer sql = new StringBuffer();
@@ -208,6 +246,10 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return sql.toString();
 	}
 
+	/**
+	 * Monta o sql para inserção do usuário
+	 * @return String sql
+	 */
 	private String montaInserirUsuario() {
 
 		StringBuffer sql = new StringBuffer();
@@ -222,6 +264,10 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return sql.toString();
 	}
 
+	/**
+	 * Monta o sql para deleção do usuário
+	 * @return String sql
+	 */
 	private String montaDeletarUsuario() {
 
 		StringBuffer sql = new StringBuffer();
@@ -235,6 +281,11 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		return sql.toString();
 	}
 
+	/**
+	 * Monta o sql para buscar um determinado usuário.
+	 * @param usuario
+	 * @return String sql
+	 */
 	private String montaBuscarUsuario(UsuarioDTO usuario) {
 
 		StringBuffer sql = new StringBuffer();
