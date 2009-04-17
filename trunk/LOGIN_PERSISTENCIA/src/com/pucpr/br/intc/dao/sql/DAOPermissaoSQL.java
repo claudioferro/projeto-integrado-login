@@ -72,7 +72,7 @@ public class DAOPermissaoSQL implements DAOPermissao {
 	 * @return boolean
 	 * @throws DAOException 
 	 */
-	public boolean excluirPermissao(PermissaoDTO permissao) {
+	public boolean excluirPermissao(PermissaoDTO permissao) throws DAOException {
 		
 		boolean retorno = false;
 		Connection con  = null;
@@ -90,14 +90,16 @@ public class DAOPermissaoSQL implements DAOPermissao {
 			pst.close();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{
-			if(con != null)
-				try {
+			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+		} catch (Exception e) {
+			throw new DAOException("Ocorreu um erro inesperado!", e);
+		}finally {
+			try {
+				if(con != null)
 					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			} catch (SQLException e) {
+				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+			}
 		}
 		return retorno;
 	}
