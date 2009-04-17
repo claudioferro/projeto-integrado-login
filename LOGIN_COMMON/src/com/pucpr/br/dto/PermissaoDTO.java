@@ -5,22 +5,24 @@ import java.io.Serializable;
 /**
  * @author Thiago Alves
  * @version 1.0
+ * 
+ * Atualização (Maicon Zotto)
  */
 
 public class PermissaoDTO implements Serializable {
 
 	private static final long serialVersionUID = -4679794231596018792L;
 
-	private String nome;
-
+	private int codigoPapel;
 	private int codigoPermissao;
-
-	public String getNome() {
-		return nome;
+	private String loginPessoa;
+	
+	public int getCodigoPapel() {
+		return codigoPapel;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setCodigoPapel(int codigoPapel) {
+		this.codigoPapel = codigoPapel;
 	}
 
 	public int getCodigoPermissao() {
@@ -31,4 +33,11 @@ public class PermissaoDTO implements Serializable {
 		this.codigoPermissao = codigoPermissao;
 	}
 
+	public String getLoginPessoa() {
+		return loginPessoa;
+	}
+
+	public void setLoginPessoa(String loginPessoa) {
+		this.loginPessoa = loginPessoa;
+	}
 }
