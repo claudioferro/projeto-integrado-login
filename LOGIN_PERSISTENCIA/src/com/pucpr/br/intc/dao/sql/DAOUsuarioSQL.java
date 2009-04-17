@@ -10,6 +10,7 @@ import java.util.Collection;
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.intc.dao.DAOUsuario;
 import com.pucpr.br.uteis.Conexao;
+import com.pucpr.br.uteis.DAOException;
 
 /**
  * Esta classe prevê acesso a base de dados para o objeto Usuario.
@@ -23,8 +24,9 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	 * 
 	 * @param usuario
 	 * @return boolean
+	 * @throws DAOException 
 	 */
-	public boolean alterarUsuario(UsuarioDTO usuario) {
+	public boolean alterarUsuario(UsuarioDTO usuario) throws DAOException {
 		
 		boolean retorno = false;
 		Connection con  = null;
@@ -44,13 +46,15 @@ public class DAOUsuarioSQL implements DAOUsuario {
 			pst.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
+			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+		} catch (Exception e) {
+			throw new DAOException("Ocorreu um erro inesperado!", e);
+		}finally {
 			try {
 				if(con != null)
 					con.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
 			}
 		}
 		return retorno;
@@ -61,8 +65,9 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	 * 
 	 * @param usuario
 	 * @return UsuarioDTO
+	 * @throws DAOException 
 	 */
-	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) {
+	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) throws DAOException {
 
 		Connection con = null;
 		
@@ -80,16 +85,21 @@ public class DAOUsuarioSQL implements DAOUsuario {
 				usuario.setLogin(rs.getString("login"));
 				usuario.setSenha(rs.getString("senha"));
 			}
+			
+			rs.close();
+			pst.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-				try {
-					if(con != null)
-						con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+		} catch (Exception e) {
+			throw new DAOException("Ocorreu um erro inesperado!", e);
+		}finally {
+			try {
+				if(con != null)
+					con.close();
+			} catch (SQLException e) {
+				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+			}
 		}
 		return usuario;
 	}
@@ -98,8 +108,9 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	 * 
 	 * @param usuario
 	 * @return boolean
+	 * @throws DAOException 
 	 */
-	public boolean excluirUsuaio(UsuarioDTO usuario) {
+	public boolean excluirUsuaio(UsuarioDTO usuario) throws DAOException {
 		
 		boolean retorno = false;
 		Connection con  = null;
@@ -110,8 +121,6 @@ public class DAOUsuarioSQL implements DAOUsuario {
 			PreparedStatement pst = con.prepareStatement(montaDeletarUsuario());
 
 			pst.setString(1, usuario.getLogin());
-			pst.setString(2, usuario.getNome());
-			pst.setString(3, usuario.getSenha());
 
 			if(pst.executeUpdate() > 0)
 				retorno = true;
@@ -119,14 +128,16 @@ public class DAOUsuarioSQL implements DAOUsuario {
 			pst.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(con != null)
-				try {
+			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+		} catch (Exception e) {
+			throw new DAOException("Ocorreu um erro inesperado!", e);
+		}finally {
+			try {
+				if(con != null)
 					con.close();
-				} catch (SQLException e) {					
-					e.printStackTrace();
-				}
+			} catch (SQLException e) {
+				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+			}
 		}
 		return retorno;
 	}
@@ -136,8 +147,9 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	 * 
 	 * @param usuario
 	 * @return boolean
+	 * @throws DAOException 
 	 */
-	public boolean inserirUsuario(UsuarioDTO usuario) {
+	public boolean inserirUsuario(UsuarioDTO usuario) throws DAOException {
 		
 		boolean retorno = false;
 		Connection con  = null;
@@ -157,14 +169,16 @@ public class DAOUsuarioSQL implements DAOUsuario {
 			pst.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(con != null)
-				try {
+			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+		} catch (Exception e) {
+			throw new DAOException("Ocorreu um erro inesperado!", e);
+		}finally {
+			try {
+				if(con != null)
 					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			} catch (SQLException e) {
+				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+			}
 		}
 		return retorno;
 	}
@@ -173,8 +187,9 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	 * Método responsável por retornar uma lista de todos os usuários
 	 * 
 	 * @return Collection UsuarioDTO
+	 * @throws DAOException 
 	 */
-	public Collection<UsuarioDTO> listarUsuarios() {
+	public Collection<UsuarioDTO> listarUsuarios() throws DAOException {
 
 		Collection<UsuarioDTO> listaUsuarios = new ArrayList<UsuarioDTO>();
 		Connection con = null;
@@ -196,22 +211,27 @@ public class DAOUsuarioSQL implements DAOUsuario {
 
 				listaUsuarios.add(usuarioDTO);
 			}
+			
+			rs.close();
+			pst.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if(con != null)
-				try {
+			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+		} catch (Exception e) {
+			throw new DAOException("Ocorreu um erro inesperado!", e);
+		}finally {
+			try {
+				if(con != null)
 					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			} catch (SQLException e) {
+				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+			}
 		}
 		return listaUsuarios;
 	}
 
 	/**
-	 * Monsta o sql para atualização do usuário
+	 * Monta o sql para atualização do usuário
 	 * @return String sql
 	 */
 	private String montaAlterarUsuario() {
@@ -230,7 +250,7 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	}
 
 	/**
-	 * Monta o sql para atualização do usuário
+	 * Monta o sql para recuperar uma lista de usuários
 	 * @return String sql
 	 */
 	private String montaListarUsuarios() {
@@ -243,6 +263,7 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		sql.append("	senha ");
 		sql.append("FROM ");
 		sql.append("	usuario");
+		
 		return sql.toString();
 	}
 
@@ -261,6 +282,7 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		sql.append("	 senha) ");
 		sql.append("VALUES ");
 		sql.append("	(?,?,?)");
+		
 		return sql.toString();
 	}
 
@@ -276,8 +298,7 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		sql.append("	usuario ");
 		sql.append("WHERE ");
 		sql.append("	login = ? AND ");
-		sql.append("	nome  = ? AND ");
-		sql.append("	senha = ?");
+		
 		return sql.toString();
 	}
 
