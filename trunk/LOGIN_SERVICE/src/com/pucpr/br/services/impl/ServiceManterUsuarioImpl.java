@@ -8,41 +8,74 @@ import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.factory.dao.DAOFactory;
 import com.pucpr.br.factory.dao.sql.DAOFactorySQL;
 import com.pucpr.br.services.ServiceManterUsuario;
+import com.pucpr.br.uteis.DAOException;
 
 public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 
 	public boolean alterarUsuario(UsuarioDTO usuario) throws RemoteException {
 
+		boolean retorno    = false;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
-		return factory.getDAOUsuario().alterarUsuario(usuario);
+		try {
+			retorno = factory.getDAOUsuario().alterarUsuario(usuario);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		
+		return retorno;
 	}
 
 	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) throws RemoteException {
+		
+		UsuarioDTO retorno = null;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
-		return factory.getDAOUsuario().buscarUsuario(usuario);
+		try {
+			retorno = factory.getDAOUsuario().buscarUsuario(usuario);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 
 	public boolean excluirUsuario(UsuarioDTO usuario) throws RemoteException {
+		
+		boolean retorno    = false;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
-		return factory.getDAOUsuario().excluirUsuaio(usuario);
+		try {
+			retorno = factory.getDAOUsuario().excluirUsuaio(usuario);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 
 	public boolean incluirUsuario(UsuarioDTO usuario) throws RemoteException {
 
+		boolean retorno    = false;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
-
-		return factory.getDAOUsuario().inserirUsuario(usuario);
+		
+		try {
+			retorno = factory.getDAOUsuario().inserirUsuario(usuario);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 
 	public List<UsuarioDTO> listarUsuarios() throws RemoteException {
+		
 		ArrayList<UsuarioDTO> listaUsuarios = new ArrayList<UsuarioDTO>();
-
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactory.SQL);
-		listaUsuarios = (ArrayList<UsuarioDTO>) factory.getDAOUsuario()
-				.listarUsuarios();
+		
+		try {
+			listaUsuarios = (ArrayList<UsuarioDTO>) factory.getDAOUsuario()
+					.listarUsuarios();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
 
 		return listaUsuarios;
 
