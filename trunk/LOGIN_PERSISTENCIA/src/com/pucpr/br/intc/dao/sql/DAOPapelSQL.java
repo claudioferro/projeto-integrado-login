@@ -65,7 +65,7 @@ public class DAOPapelSQL implements DAOPapel {
 	 * @return boolean
 	 * @throws DAOException 
 	 */
-	public UsuarioDTO buscarPapel(PapelDTO papel) {
+	public PapelDTO buscarPapel(UsuarioDTO papel) {
 	
 	
 		

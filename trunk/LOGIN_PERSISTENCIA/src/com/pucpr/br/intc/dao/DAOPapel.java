@@ -14,7 +14,7 @@ public interface DAOPapel {
 
 	boolean alterarPapel(PapelDTO papel) throws DAOException;
 
-	UsuarioDTO buscarPapel(PapelDTO papel) throws DAOException;
+	PapelDTO buscarPapel(UsuarioDTO papel) throws DAOException;
 
 	Collection<PapelDTO> listarPapeis() throws DAOException;
 
