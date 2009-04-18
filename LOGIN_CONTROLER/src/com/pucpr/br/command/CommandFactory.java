@@ -1,7 +1,5 @@
 package com.pucpr.br.command;
 
-import java.util.Map;
-
 import com.pucpr.br.command.impl.CommandAutenticar;
 
 public class CommandFactory {
