@@ -14,7 +14,7 @@ public interface DAOPermissao {
 
 	boolean alterarPermissao(PermissaoDTO permissao) throws DAOException;
 
-	PermissaoDTO buscarPermissao(UsuarioDTO permissao) throws DAOException;
+	Collection<PermissaoDTO> buscarPermissao(UsuarioDTO permissao) throws DAOException;
 
 	Collection<PermissaoDTO> listarPermissoes() throws DAOException;
 }

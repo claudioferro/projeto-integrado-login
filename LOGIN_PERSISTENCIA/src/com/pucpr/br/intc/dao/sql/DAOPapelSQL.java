@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.pucpr.br.dto.PapelDTO;
-import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.intc.dao.DAOPapel;
 import com.pucpr.br.uteis.Conexao;
 import com.pucpr.br.uteis.DAOException;
@@ -65,12 +64,14 @@ public class DAOPapelSQL implements DAOPapel {
 	 * @return boolean
 	 * @throws DAOException 
 	 */
-	public PapelDTO buscarPapel(UsuarioDTO papel) {
+	/*
+	public PapelDTO buscarPapel(UsuarioDTO usuario) {
 	
 	
 		
 		return null;
 	}
+	*/
 
 	/**
 	 * Método responsável pela deleção de um determinado papel.

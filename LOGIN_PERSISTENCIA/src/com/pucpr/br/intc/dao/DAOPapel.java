@@ -3,7 +3,6 @@ package com.pucpr.br.intc.dao;
 import java.util.Collection;
 
 import com.pucpr.br.dto.PapelDTO;
-import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.uteis.DAOException;
 
 public interface DAOPapel {
@@ -14,7 +13,7 @@ public interface DAOPapel {
 
 	boolean alterarPapel(PapelDTO papel) throws DAOException;
 
-	PapelDTO buscarPapel(UsuarioDTO papel) throws DAOException;
+	//PapelDTO buscarPapel(UsuarioDTO papel) throws DAOException;
 
 	Collection<PapelDTO> listarPapeis() throws DAOException;
 

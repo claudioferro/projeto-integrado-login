@@ -60,9 +60,43 @@ public class DAOPermissaoSQL implements DAOPermissao {
 	}
 	
 	
-	public PermissaoDTO buscarPermissao(UsuarioDTO permissao) {
+	public Collection<PermissaoDTO> buscarPermissao(UsuarioDTO permissao) throws DAOException {
 		
-		return null;
+		Collection<PermissaoDTO> listaPemissoesUsuario = new ArrayList<PermissaoDTO>();
+		Connection con = null;
+		PermissaoDTO PermissaoDTO = null;
+		
+		try {
+			con = Conexao.obterInstancia().obterConexao();
+			
+			PreparedStatement pst = con.prepareStatement(montaBuscaPermissoes());
+			
+			ResultSet rs = pst.executeQuery();
+
+			while (rs.next()) {
+				PermissaoDTO = new PermissaoDTO();
+
+				PermissaoDTO.setCodigoPapel(rs.getInt("cod_papel"));
+
+				listaPemissoesUsuario.add(PermissaoDTO);
+			}
+			
+			rs.close();
+			pst.close();
+
+		} catch (SQLException e) {
+			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+		} catch (Exception e) {
+			throw new DAOException("Ocorreu um erro inesperado!", e);
+		}finally {
+			try {
+				if(con != null)
+					con.close();
+			} catch (SQLException e) {
+				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+			}
+		}
+		return listaPemissoesUsuario;
 	}
 
 	/**
@@ -259,6 +293,28 @@ public class DAOPermissaoSQL implements DAOPermissao {
 		sql.append("     pe.cod_papel = pa.codigo_papel ");
 		sql.append("  ORDER BY ");
 		sql.append("     pa.nome ");
+		
+		return sql.toString();
+	}
+	
+	/**
+	 * Monta o sql para retornar uma permissão de um determinado usuário
+	 * @return String sql
+	 */
+	public String montaBuscaPermissoes()
+	{
+		StringBuffer sql = new StringBuffer();
+		
+		sql.append(" SELECT ");
+		sql.append(" 	pa.codigo_papel ");
+		sql.append(" FROM ");
+		sql.append(" 	permissao pe, usuario us, papel pa ");
+		sql.append(" WHERE ");
+		sql.append(" 	pe.login_pessoa = us.login ");
+		sql.append(" AND ");
+		sql.append(" 	pe.cod_papel = pa.codigo_papel ");
+		sql.append(" AND ");
+		sql.append(" 	us.login = ? ");
 		
 		return sql.toString();
 	}
