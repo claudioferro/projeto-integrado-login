@@ -74,13 +74,14 @@ public class DAOUsuarioSQL implements DAOUsuario {
 		try {
 			con = Conexao.obterInstancia().obterConexao();
 			
-			PreparedStatement pst = con.prepareStatement(montaBuscarUsuario(usuario));
+			PreparedStatement pst = con.prepareStatement(montaBuscarUsuario());
 			
 			pst.setString(1, usuario.getLogin());
+			pst.setString(2, usuario.getSenha());
 
 			ResultSet rs = pst.executeQuery();
 
-			while (rs.next()) {
+			if (rs.next()) {
 				usuario.setNome(rs.getString("nome"));
 				usuario.setLogin(rs.getString("login"));
 				usuario.setSenha(rs.getString("senha"));
@@ -307,29 +308,20 @@ public class DAOUsuarioSQL implements DAOUsuario {
 	 * @param usuario
 	 * @return String sql
 	 */
-	private String montaBuscarUsuario(UsuarioDTO usuario) {
+	private String montaBuscarUsuario() {
 
 		StringBuffer sql = new StringBuffer();
-
-		if(usuario.getLogin() != null){
-			sql.append("SELECT ");
-			sql.append("	login, ");
-			sql.append("	nome, ");
-			sql.append("	senha ");
-			sql.append("FROM ");
-			sql.append("	usuario ");
-			sql.append("WHERE");
-			sql.append("	login = ?  ");
-		}else{
-			sql.append("SELECT ");
-			sql.append("	login, ");
-			sql.append("	nome, ");
-			sql.append("	senha ");
-			sql.append("FROM ");
-			sql.append("	usuario ");
-			sql.append("WHERE");
-			sql.append("	usuario = ?  ");
-		}
+		
+		sql.append("SELECT ");
+		sql.append("	login, ");
+		sql.append("	nome, ");
+		sql.append("	senha ");
+		sql.append("FROM ");
+		sql.append("	usuario ");
+		sql.append("WHERE");
+		sql.append("	login = ?  ");
+		sql.append("AND");
+		sql.append("	senha = ?  ");
 
 		return sql.toString();
 	}

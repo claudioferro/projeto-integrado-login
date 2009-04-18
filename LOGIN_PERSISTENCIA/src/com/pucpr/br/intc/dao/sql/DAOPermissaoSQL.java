@@ -60,7 +60,7 @@ public class DAOPermissaoSQL implements DAOPermissao {
 	}
 	
 	
-	public UsuarioDTO buscarPermissao(PermissaoDTO permissao) {
+	public PermissaoDTO buscarPermissao(UsuarioDTO permissao) {
 		
 		return null;
 	}
