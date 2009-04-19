@@ -148,7 +148,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 			if (e.getActionCommand().equals(ConstantsFrontEnd.LOGIN_CONFIRMAR)) {
 				HashMap<String, Object> data = new HashMap<String, Object>();
 				data.put(ConstantsFrontEnd.LOGIN_LOGIN, txtLogin.getText());
-				data.put(ConstantsFrontEnd.LOGIN_SENHA, txtSenha);
+				data.put(ConstantsFrontEnd.LOGIN_SENHA, new String (txtSenha.getPassword()));
 
 				FrontController.executeCommand(
 						ConstantsFrontEnd.LOGIN_CONFIRMAR, data);
