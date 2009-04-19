@@ -89,7 +89,8 @@ public class Principal extends JFrame {
 		itemEditarUsuario.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent evt) {				
-				
+				TelaUsuario telaUsuario = new TelaUsuario(true);
+				novaJanela(telaUsuario);
 			}
 
 		});
