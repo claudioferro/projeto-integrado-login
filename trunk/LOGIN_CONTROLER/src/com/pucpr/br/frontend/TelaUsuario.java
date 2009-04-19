@@ -34,6 +34,8 @@ public class TelaUsuario extends JInternalFrame implements ComponentListener {
 	private JPanel panelCampos;
 	private JPanel panelBotoes;
 	
+	private boolean editar;
+	
 	private ListenerBotoes listenerBotoes = new ListenerBotoes();
 	
 	/**
@@ -44,6 +46,8 @@ public class TelaUsuario extends JInternalFrame implements ComponentListener {
 	 */
 	public TelaUsuario(boolean editar){
 		super(ConstantsFrontEnd.USUARIO_TITULO_TELA_NOVO_USUARIO, false, true, false, false);
+		
+		this.editar = editar;
 		
 		//inicia os componentes da janela
 		inicializarComponentes(editar);
@@ -96,6 +100,8 @@ public class TelaUsuario extends JInternalFrame implements ComponentListener {
 	private JTextField getTextLogin() {
 
 		txtLogin = new JTextField();
+		if (editar)
+			txtLogin.setEnabled(false);
 		return txtLogin;
 	}
 	
