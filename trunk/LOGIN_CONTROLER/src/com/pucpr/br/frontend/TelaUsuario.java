@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -15,7 +17,7 @@ import javax.swing.JTextField;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 
-public class TelaUsuario extends JInternalFrame {
+public class TelaUsuario extends JInternalFrame implements ComponentListener {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 4379942071567806852L;
@@ -56,7 +58,7 @@ public class TelaUsuario extends JInternalFrame {
 		// Define o tamanho e posição do frame
 		setBounds((screenSize.width - 400) / 2, (screenSize.height - 300) / 2,
 				400, 250);
-		
+		addComponentListener(this);				
 		setVisible(true);
 	}
 
@@ -172,5 +174,24 @@ public class TelaUsuario extends JInternalFrame {
 		}
 
 	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+		// Recupera o tamanho da tela
+		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit()
+				.getScreenSize();
+		// Define o tamanho e posição do frame
+		setBounds((screenSize.width - 400) / 2, (screenSize.height - 300) / 2,
+				400, 250);
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e) {}
+
+	@Override
+	public void componentShown(ComponentEvent e) {}
 
 }
