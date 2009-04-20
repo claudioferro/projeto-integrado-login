@@ -72,7 +72,7 @@ public class TelaMonitorarUsuarios extends JInternalFrame implements Observer{
 		panelBotoes = new JPanel(new GridLayout(1, 3, 15, 15));
 
 		// Adiciona componentes no painel de campos
-		GridBagLayoutUtils.add(panelCampos, "", getPainelTabelaUsuarios());
+		//GridBagLayoutUtils.add(panelCampos, "", getPainelTabelaUsuarios());
 
 		// Adiciona componentes no painel de botoes
 		panelBotoes.add(getBotaoSuspender());
@@ -80,8 +80,9 @@ public class TelaMonitorarUsuarios extends JInternalFrame implements Observer{
 		panelBotoes.add(getBotaoEditar());
 
 		// adiciona os paineis ao frame
-		this.add(panelBotoes, BorderLayout.SOUTH);
-		this.add(panelCampos, BorderLayout.CENTER);
+		this.add(panelBotoes, BorderLayout.SOUTH);		
+		//this.add(panelCampos, BorderLayout.CENTER);
+		this.add(getPainelTabelaUsuarios(), BorderLayout.CENTER);
 	}
 	
 	/**
