@@ -1,7 +1,5 @@
 package com.pucpr.br.services.impl;
 
-import java.security.NoSuchAlgorithmException;
-
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.factory.dao.DAOFactory;
 import com.pucpr.br.factory.dao.sql.DAOFactorySQL;
@@ -33,14 +31,9 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
 		// Criptografa a senha do usuario
-		try {
-			usuario
-					.setSenha(CriptografiaUtils
-							.criptografar(usuario.getSenha()));
-		} catch (NoSuchAlgorithmException e1) {
-			throw new RuntimeException("Erro ao criptografar senha", e1);
-		}
+		usuario.setSenha(CriptografiaUtils.criptografar(usuario.getSenha()));
 
+		// Verifica se usuario existe
 		try {
 			if (factory.getDAOUsuario().buscarUsuario(usuario) == null) {
 				return false;
@@ -49,21 +42,9 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 			}
 
 		} catch (DAOException e) {
-			e.printStackTrace();
+			new DAOException("Erro ao autenticar usuario", e);
 		}
 		return false;
 	}
 
-	public static void main(String[] args) {
-
-		UsuarioDTO usuario = new UsuarioDTO();
-		usuario.setLogin("thiago");
-		usuario.setNome("Thiago");
-		usuario.setSenha("thiago");
-
-		ServiceAutenticarImpl autenticarImpl = new ServiceAutenticarImpl();
-
-		System.out.println(autenticarImpl.autenticarUsuario(usuario));
-
-	}
 }
