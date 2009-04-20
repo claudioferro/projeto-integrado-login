@@ -31,6 +31,7 @@ public class Principal extends JFrame {
 	/** serialVersionUID */
 	private static final long serialVersionUID = -108634806451927541L;
 	
+	//variaveis da tela
 	private JDesktopPane desktop;
 	private JMenu menuArquivo;
 	private JMenu menuEditar;
@@ -38,6 +39,7 @@ public class Principal extends JFrame {
 	private JMenu menuAjuda;
 	
 	private TelaManterPapeis manterPapeis;
+	private TelaMonitorarUsuarios monitorarUsuarios;
 	
 	public Principal(){
 		super(":: PROJETO INTEGRADO ::");
@@ -66,6 +68,9 @@ public class Principal extends JFrame {
 		
 	}
 	
+	/**
+	 * Método para instanciar os componentes da tela
+	 */
 	private void inicializarComponentes() {
 
 		//adiciona os menus
@@ -115,11 +120,15 @@ public class Principal extends JFrame {
 		itemMonitorarUsuarios.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent evt) {
-				
+				if (monitorarUsuarios == null || monitorarUsuarios.isClosed()){
+					monitorarUsuarios = new TelaMonitorarUsuarios();
+					novaJanela(monitorarUsuarios);
+				} else
+					monitorarUsuarios.toFront();
 			}
 
 		});
-		menuSegurança.setEnabled(false);
+		//menuSegurança.setEnabled(false);
 		menuSegurança.add(itemMonitorarUsuarios);
 		
 		JMenuItem itemManterPapeis = new JMenuItem("Manter Papéis");

@@ -69,6 +69,9 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 
 	}
 
+	/**
+	 * Método para instanciar os componentes da tela
+	 */
 	private void inicializarComponentes() {
 
 		// Inicializando paineis

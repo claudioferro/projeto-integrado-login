@@ -72,6 +72,9 @@ public class TelaUsuario extends JInternalFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * Método para instanciar os componentes da tela
+	 */
 	private void inicializarComponentes(boolean editar) {
 		
 		// Inicializando paineis

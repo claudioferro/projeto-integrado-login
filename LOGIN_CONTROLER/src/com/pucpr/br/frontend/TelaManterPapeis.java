@@ -64,6 +64,9 @@ public class TelaManterPapeis extends JInternalFrame {
 		
 	}
 
+	/**
+	 * Método para instanciar os componentes da tela
+	 */
 	private void inicializarComponentes() {
 		
 		// Inicializando paineis
@@ -91,7 +94,7 @@ public class TelaManterPapeis extends JInternalFrame {
 	 */
 	private JList getListPapeis() {
 		listPapeis = new JList();		
-		listPapeis.setVisibleRowCount(6);
+		listPapeis.setVisibleRowCount(7);
 		listPapeis.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	
 		listPapeis.setListData(new Vector<PapelDTO>(carregarListaPapeis()));
