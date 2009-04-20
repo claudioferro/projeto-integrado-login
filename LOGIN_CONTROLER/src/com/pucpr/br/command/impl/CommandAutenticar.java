@@ -10,13 +10,14 @@ import com.pucpr.br.command.Command;
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.ControllerException;
-import com.pucpr.br.services.ServiceManterUsuario;
+import com.pucpr.br.services.ServiceAutenticar;
 import com.pucpr.br.utils.ConstantsServices;
 
 public class CommandAutenticar implements Command {
 
 	public void execute(Map<String, Object> data) {
 
+		boolean autenticado = false;
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 
 		usuarioDTO.setLogin((String) data.get(ConstantsFrontEnd.LOGIN_LOGIN));
@@ -24,11 +25,8 @@ public class CommandAutenticar implements Command {
 
 		try {
 
-			usuarioDTO = obterServico().buscarUsuario(usuarioDTO);
+			autenticado = obterServico().autenticarUsuario(usuarioDTO);
 
-			System.out.println(usuarioDTO.getLogin());
-			System.out.println(usuarioDTO.getNome());
-			System.out.println(usuarioDTO.getSenha());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -38,13 +36,12 @@ public class CommandAutenticar implements Command {
 		}
 	}
 
-	private ServiceManterUsuario obterServico() throws ControllerException {
+	private ServiceAutenticar obterServico() throws ControllerException {
 
 		try {
-			ServiceManterUsuario servico = (ServiceManterUsuario) Naming
+			ServiceAutenticar servico = (ServiceAutenticar) Naming
 					.lookup("rmi://localhost/"
-							+ ConstantsServices.SERVICE_MANTER_USUARIO);
-
+							+ ConstantsServices.SERVICE_AUTENTICAR);
 			return servico;
 		} catch (MalformedURLException e) {
 			throw new ControllerException(
