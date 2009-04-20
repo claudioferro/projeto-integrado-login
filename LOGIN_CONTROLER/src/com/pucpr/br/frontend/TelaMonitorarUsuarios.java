@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
-import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 import com.pucpr.br.frontend.utils.TableModelMonitorarUsuarios;
 
 /**
