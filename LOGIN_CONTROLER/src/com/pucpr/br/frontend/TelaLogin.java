@@ -25,7 +25,8 @@ import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
  * @version 1.2
  * 
  *          Tela de login que contem os campos para a autenticação do usuário
- * */
+ *          
+ */
 
 public class TelaLogin extends JInternalFrame implements ComponentListener{
 
@@ -45,6 +46,8 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 	private JPanel panelBotoes;
 
 	private ListenerBotoes listenerBotoes = new ListenerBotoes();
+	
+	private TelaUsuario telaUsuario;
 
 	public TelaLogin(Principal desktop) {
 		super(ConstantsFrontEnd.LOGIN_TITULO_TELA_LOGIN, false, false, false, false);
@@ -124,6 +127,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 	private JTextField getTextLogin() {
 
 		txtLogin = new JTextField();
+		txtLogin.setFocusable(true);
 		return txtLogin;
 	}
 
@@ -155,10 +159,12 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 
 			} else if (e.getActionCommand().equals(
 						ConstantsFrontEnd.LOGIN_NOVO_USUARIO)) {
-				
-				//abre a janela para criar um novo usuario
-				TelaUsuario telaUsuario = new TelaUsuario(false);
-				desktop.novaJanela(telaUsuario);				
+				//abre a janela para criar um novo usuario usando singleton
+				if (telaUsuario == null || telaUsuario.isClosed()){
+					telaUsuario = new TelaUsuario(false);
+					desktop.novaJanela(telaUsuario);
+				} else
+					telaUsuario.toFront();			
 			}
 		}
 
