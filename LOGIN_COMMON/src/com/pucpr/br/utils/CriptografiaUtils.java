@@ -3,6 +3,8 @@ package com.pucpr.br.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import sun.misc.BASE64Encoder;
+
 public class CriptografiaUtils {
 
 	public static boolean isEqual(byte[] criptBytes1, byte[] criptBytes2) {
@@ -22,7 +24,7 @@ public class CriptografiaUtils {
 
 	}
 
-	public static String criptografar(String mensagem)
+	public static String criptografar2(String mensagem)
 			throws NoSuchAlgorithmException {
 		MessageDigest md5 = MessageDigest.getInstance("MD5");
 
@@ -32,6 +34,18 @@ public class CriptografiaUtils {
 		byte[] cripto = md5.digest();
 
 		return cripto.toString();
+	}
+
+	public static String criptografar(String senha) {
+		try {
+			MessageDigest digest = MessageDigest.getInstance("MD5");
+			digest.update(senha.getBytes());
+			BASE64Encoder encoder = new BASE64Encoder();
+			return encoder.encode(digest.digest());
+		} catch (NoSuchAlgorithmException ns) {
+			ns.printStackTrace();
+			return senha;
+		}
 	}
 
 }
