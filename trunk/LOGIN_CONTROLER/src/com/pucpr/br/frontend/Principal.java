@@ -18,6 +18,14 @@ import javax.swing.event.InternalFrameEvent;
 
 import org.jvnet.substance.skin.SubstanceBusinessBlueSteelLookAndFeel;
 
+/**
+ * @author Rony Sartor
+ * 
+ * @version 1.0
+ * 
+ *          Tela para manter os Papeis
+ *          
+ */
 public class Principal extends JFrame {
 	
 	/** serialVersionUID */
@@ -29,6 +37,7 @@ public class Principal extends JFrame {
 	private JMenu menuSegurança;
 	private JMenu menuAjuda;
 	
+	private TelaManterPapeis manterPapeis;
 	
 	public Principal(){
 		super(":: PROJETO INTEGRADO ::");
@@ -118,7 +127,11 @@ public class Principal extends JFrame {
 		itemManterPapeis.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent evt) {
-				
+				if (manterPapeis == null || manterPapeis.isClosed()){
+					manterPapeis = new TelaManterPapeis();
+					novaJanela(manterPapeis);
+				} else
+					manterPapeis.toFront();
 			}
 
 		});
@@ -137,7 +150,7 @@ public class Principal extends JFrame {
 		
 		menuAjuda.add(itemSobre);
 
-		
+		//adicionar os menus na barra de menu
 		menuBar.add(menuArquivo);
 		menuBar.add(menuEditar);
 		menuBar.add(menuSegurança);
