@@ -23,5 +23,10 @@ public class PapelDTO implements Serializable {
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
+	
+	@Override
+	public String toString() {
+		return nome;
+	}
 
 }
