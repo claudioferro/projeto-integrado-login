@@ -38,6 +38,7 @@ public class Principal extends JFrame {
 	private JMenu menuSegurança;
 	private JMenu menuAjuda;
 	
+	private Principal principal;
 	private TelaManterPapeis manterPapeis;
 	private TelaMonitorarUsuarios monitorarUsuarios;
 	
@@ -55,14 +56,16 @@ public class Principal extends JFrame {
 		
 		getContentPane().add(desktop);
 		
+		this.principal = this;
+		
 		inicializarComponentes();
 		
-		TelaLogin telaLogin = new TelaLogin(this);
+		TelaLogin telaLogin = new TelaLogin(principal);
 		novaJanela(telaLogin);
 		
 		//ImageIcon img = new ImageIcon("resources/bsin.png");
 		//setIconImage(img.getImage());
-		setMinimumSize(new Dimension(400, 630));
+		setMinimumSize(new Dimension(600, 500));
 		setExtendedState(MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		
@@ -121,10 +124,16 @@ public class Principal extends JFrame {
 
 			public void actionPerformed(ActionEvent evt) {
 				if (monitorarUsuarios == null || monitorarUsuarios.isClosed()){
-					monitorarUsuarios = new TelaMonitorarUsuarios();
+					monitorarUsuarios = new TelaMonitorarUsuarios(principal);
 					novaJanela(monitorarUsuarios);
-				} else
+				} else {					
 					monitorarUsuarios.toFront();
+					try {
+						monitorarUsuarios.setIcon(false);
+					} catch (PropertyVetoException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 
 		});

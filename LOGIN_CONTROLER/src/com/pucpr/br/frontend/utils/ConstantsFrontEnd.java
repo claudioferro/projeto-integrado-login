@@ -24,7 +24,7 @@ public class ConstantsFrontEnd {
 	public static final String USUARIO_TITULO_TELA_EDITAR_USUARIO = ":: EDITAR USUARIO - PROJETO INTEGRADO ::";
 	
 	//TelaManterPapeis
-	public static final String MANTER_PAPEIS_TITULO_TELA = ":: MANTER PAPEIS - PROJETO INTEGRADO ::";
+	public static final String MANTER_PAPEIS_TITULO_TELA = ":: MANTER PAPÉIS - PROJETO INTEGRADO ::";
 	public static final String MANTER_PAPEIS_NOVO= "Novo";
 	public static final String MANTER_PAPEIS_EXCLUIR = "Excluir";
 	public static final String MANTER_PAPEIS_MSG_EXCLUSAO = "Deseja realmente excluir o Papel # ?";
@@ -32,9 +32,22 @@ public class ConstantsFrontEnd {
 	public static final String MANTER_PAPEIS_MSG_NOME_VAZIO = "Você precisa digitar o nome do papel.";
 	
 	//TelaMonitorarUsuarios
-	public static final String MONITORAR_USUARIOS_TITULO_TELA = ":: MANTER PAPEIS - PROJETO INTEGRADO ::";
+	public static final String MONITORAR_USUARIOS_TITULO_TELA = ":: MONITORAR USUÁRIOS - PROJETO INTEGRADO ::";
 	public static final String MONITORAR_USUARIOS_SUSPENDER= "Suspender";
 	public static final String MONITORAR_USUARIOS_EDITAR_PAPEIS = "Editar Papéis";
 	public static final String MONITORAR_USUARIOS_EDITAR = "Editar";
+	public static final String MONITORAR_USUARIOS_MSG_SELECAO = "Você precisa selecionar um Usuário para fazer está ação";
+	public static final String MONITORAR_USUARIOS_MSG_SUSPENDER = "Deseja realmente suspender o usuário # ?";
+	
+	//TelaEditarPapeisUsuario
+	public static final String PAPEIS_USUARIO_TITULO_TELA = ":: EDITAR PAPÉIS - PROJETO INTEGRADO ::";
+	public static final String PAPEIS_USUARIO_SALVAR = "Salvar";
+	public static final String PAPEIS_USUARIO_CANCELAR = "Cancelar";
+	public static final String PAPEIS_USUARIO = "Papéis do Usuário #";
+	public static final String PAPEIS_USUARIO_DISPONIVEL = "Papéis Disponíveis";
+	public static final String PAPEIS_USUARIO_MAIOR_SIMPLES = ">";
+	public static final String PAPEIS_USUARIO_MAIOR_DUPLO = ">>";
+	public static final String PAPEIS_USUARIO_MENOR_SIMPLES = "<";
+	public static final String PAPEIS_USUARIO_MENOR_DUPLO = "<<";
 	
 }
