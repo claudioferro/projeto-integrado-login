@@ -163,19 +163,21 @@ public class TelaManterPapeis extends JInternalFrame {
 					
 					// TODO : Fazer a chamada para o command adicionar papel
 					
-				} else {
+				} else
 					JOptionPane.showMessageDialog(null, ConstantsFrontEnd.MANTER_PAPEIS_MSG_NOME_VAZIO, ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, JOptionPane.WARNING_MESSAGE);
-				}
 			} else {
 				if (e.getActionCommand().equals(ConstantsFrontEnd.MANTER_PAPEIS_EXCLUIR)) {
-					String msg = ConstantsFrontEnd.MANTER_PAPEIS_MSG_EXCLUSAO.replaceAll("#", listPapeis.getSelectedValue().toString()); 
-					int resposta = JOptionPane.showConfirmDialog(null, msg, ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					if (resposta == JOptionPane.YES_OPTION)	{
-						
-						// TODO : Fazer a chamada para o command excluir o papel selecionado
-						
-						carregarListaPapeis();																		
-					}
+					if (listPapeis.getSelectedIndex() != -1) {
+						String msg = ConstantsFrontEnd.MANTER_PAPEIS_MSG_EXCLUSAO.replaceAll("#", listPapeis.getSelectedValue().toString()); 
+						int resposta = JOptionPane.showConfirmDialog(null, msg, ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						if (resposta == JOptionPane.YES_OPTION)	{
+							
+							// TODO : Fazer a chamada para o command excluir o papel selecionado
+							
+							carregarListaPapeis();																		
+						}
+					} else
+						JOptionPane.showMessageDialog(null, ConstantsFrontEnd.MANTER_PAPEIS_MSG_SELECAO, ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		}

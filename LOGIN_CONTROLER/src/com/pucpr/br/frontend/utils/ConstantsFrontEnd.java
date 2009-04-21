@@ -30,6 +30,7 @@ public class ConstantsFrontEnd {
 	public static final String MANTER_PAPEIS_MSG_EXCLUSAO = "Deseja realmente excluir o Papel # ?";
 	public static final String MANTER_PAPEIS_MSG_NOVO = "Digite o nome do papel";
 	public static final String MANTER_PAPEIS_MSG_NOME_VAZIO = "Você precisa digitar o nome do papel.";
+	public static final String MANTER_PAPEIS_MSG_SELECAO = "Você precisa selecionar um Papel para fazer está ação";
 	
 	//TelaMonitorarUsuarios
 	public static final String MONITORAR_USUARIOS_TITULO_TELA = ":: MONITORAR USUÁRIOS - PROJETO INTEGRADO ::";

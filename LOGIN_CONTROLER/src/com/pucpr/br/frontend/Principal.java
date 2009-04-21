@@ -1,6 +1,5 @@
 package com.pucpr.br.frontend;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +13,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
-import javax.swing.event.InternalFrameEvent;
 
 import org.jvnet.substance.skin.SubstanceBusinessBlueSteelLookAndFeel;
 
@@ -23,7 +21,7 @@ import org.jvnet.substance.skin.SubstanceBusinessBlueSteelLookAndFeel;
  * 
  * @version 1.0
  * 
- *          Tela para manter os Papeis
+ *          Classe principal que contem a JFrame principal do programa
  *          
  */
 public class Principal extends JFrame {
@@ -180,6 +178,11 @@ public class Principal extends JFrame {
 
 	}
 	
+	/**
+	 * Método que adiciona no JInternalFrame na JFrame principal, 
+	 * 
+	 * @param JInternalFrame janela
+	 */
 	public void novaJanela(JInternalFrame janela){		
 		desktop.add(janela);		
 		try {
@@ -188,93 +191,12 @@ public class Principal extends JFrame {
 		}
 		janela.toFront();
 	}
-		
-	public void alterarCor(JFrame frame, Color cor){
-		frame.setBackground(cor);
-		frame.repaint();
-	}
 	
-	public void fechaConversa(InternalFrameEvent internalFrame){
-        /*for (int i = 0; i < telaConversas.size(); i++) {
-			Conversa temp = telaConversas.get(i);
-			if(internalFrame.getInternalFrame().hashCode() == temp.hashCode()){				
-				for(int j=0; j < toolBarConversas.getComponents().length; j++){
-					Component componentes[] = toolBarConversas.getComponents(); 
-					JButton botao = (JButton) componentes[j];
-					if (conversas.get(i).getCodigoJanela() == botao.hashCode()){
-						toolBarConversas.remove(j);
-					}
-				}
-				telaConversas.remove(i);
-				conversas.remove(i);
-				toolBarConversas.repaint();
-				break;
-			}						
-		}
-        if (telaConversas.size() == 0){
-        	toolBarConversas.setVisible(false);
-        }*/
-	}
-		
-	/*public void novaConversa(Contato amigo){
-		boolean estaAberta = false;
-		Conversa janelaConversa = procurarJanela(amigo);
-		if(janelaConversa != null){
-			estaAberta = true;
-		}
-		
-		if (estaAberta){
-			janelaConversa.toFront();
-		} else {			
-			Conversa novaConversa = new Conversa(this, amigo, 20*conversas.size(), 22*conversas.size());		
-			telaConversas.add(novaConversa);
-			conversas.add(amigo);
-			novaJanela(novaConversa);
-			
-			ThreadClient threadClient = new ThreadClient(amigo, "");
-			threadClient.start();
-			
-			String nomeConversa = amigo.getNome(); 
-			if (amigo.getNome().length() > 10){
-				nomeConversa = amigo.getNome().substring(0, 8) + "...";
-			}
-			
-			JButton botaoConversa = new JButton(nomeConversa, new ImageIcon("resources/conversa.png"));	
-			amigo.setCodigoJanela(botaoConversa.hashCode());
-			botaoConversa.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					for (int i = 0; i < conversas.size(); i++) {
-						Contato contato = conversas.get(i);											
-						if(contato.getCodigoJanela() == evt.getSource().hashCode()){
-							if (telaConversas.get(i).isIcon()) {
-								try {
-									telaConversas.get(i).setIcon(false);
-									telaConversas.get(i).setSelected(true);
-								} catch (PropertyVetoException e) {
-									e.printStackTrace();
-								}							
-							}							
-							telaConversas.get(i).toFront();
-							try {
-								telaConversas.get(i).setSelected(true);
-							} catch (PropertyVetoException e) {
-								e.printStackTrace();
-							}
-							break;
-						}
-					}
-				}
-			});
-			botaoConversa.setToolTipText(amigo.getNome());			
-			toolBarConversas.add(botaoConversa);		
-		}	
-		
-		if(toolBarConversas.isVisible() == false){
-			toolBarConversas.setVisible(true);
-		}
-	}*/	
-	
-	
+	/**
+	 * Main para execução da frame principal
+	 * 
+	 * @param args
+	 */	
 	public static void main(String[] args) {
 
 		setDefaultLookAndFeelDecorated(true);
