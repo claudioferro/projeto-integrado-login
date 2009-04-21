@@ -301,8 +301,10 @@ public class TelaEditarPapeisUsuario extends JInternalFrame {
 			} else {
 				if (e.getActionCommand().equals(ConstantsFrontEnd.PAPEIS_USUARIO_MAIOR_SIMPLES)) {
 						
-					papeisDisponiveis.add((PapelDTO) listPapeisUsuario.getSelectedValue());
-					papeisUsuario.remove(listPapeisUsuario.getSelectedIndex());
+					if (listPapeisUsuario.getSelectedValue() != null) {
+						papeisDisponiveis.add((PapelDTO) listPapeisUsuario.getSelectedValue());
+						papeisUsuario.remove(listPapeisUsuario.getSelectedIndex());
+					}
 					
 				} else if (e.getActionCommand().equals(ConstantsFrontEnd.PAPEIS_USUARIO_MAIOR_DUPLO)) {
 					
@@ -313,8 +315,10 @@ public class TelaEditarPapeisUsuario extends JInternalFrame {
 					
 				} else if (e.getActionCommand().equals(ConstantsFrontEnd.PAPEIS_USUARIO_MENOR_SIMPLES)) {
 					
-					papeisUsuario.add((PapelDTO) listPapeisDisponiveis.getSelectedValue());
-					papeisDisponiveis.remove(listPapeisDisponiveis.getSelectedIndex());
+					if (listPapeisDisponiveis.getSelectedValue() != null) {
+						papeisUsuario.add((PapelDTO) listPapeisDisponiveis.getSelectedValue());
+						papeisDisponiveis.remove(listPapeisDisponiveis.getSelectedIndex());
+					}
 					
 				} else if (e.getActionCommand().equals(ConstantsFrontEnd.PAPEIS_USUARIO_MENOR_DUPLO)) {
 					
