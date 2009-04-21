@@ -1,7 +1,6 @@
 package com.pucpr.br.frontend;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,9 +9,11 @@ import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.TableModelMonitorarUsuarios;
@@ -33,27 +34,33 @@ public class TelaMonitorarUsuarios extends JInternalFrame implements Observer{
 	//variaveis da tela
 	private JScrollPane painelTabelaUsuarios;
 	
-	private JTable tbMonitararUsuarios;
+	private JTable tbMonitorarUsuarios;
 	private TableModelMonitorarUsuarios modeloTabelaUsuarios;
 		
 	private JButton btnSuspender;
 	private JButton btnEditarPapeis;
 	private JButton btnEditar;
 	
-	private JPanel panelCampos;
 	private JPanel panelBotoes;
 	
 	private ListenerBotoes listenerBotoes = new ListenerBotoes();
 	
-	public TelaMonitorarUsuarios() {
-		super(ConstantsFrontEnd.MONITORAR_USUARIOS_TITULO_TELA, true, true, false, false);
+	private Principal desktop;
+	private TelaEditarPapeisUsuario editarPapeisUsuario;
+	private TelaUsuario editarUsuario;
+	
+	public TelaMonitorarUsuarios(Principal desktop) {
+		super(ConstantsFrontEnd.MONITORAR_USUARIOS_TITULO_TELA, true, true, false, true);
+		
+		//seta a tela "mae" da aplicação
+		this.desktop = desktop;
 						
 		//inicia os componentes da janela
 		inicializarComponentes();
 		
 		// Recupera o tamanho da tela
-		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit()
-				.getScreenSize();
+		java.awt.Dimension screenSize = desktop.getSize();
+		
 		// Define o tamanho e posição do frame
 		setBounds((screenSize.width - 400) / 2, (screenSize.height - 300) / 2,
 				400, 250);
@@ -66,12 +73,7 @@ public class TelaMonitorarUsuarios extends JInternalFrame implements Observer{
 	 */
 	private void inicializarComponentes() {
 		// Inicializando paineis
-		panelCampos = new JPanel(new GridBagLayout());
-
 		panelBotoes = new JPanel(new GridLayout(1, 3, 15, 15));
-
-		// Adiciona componentes no painel de campos
-		//GridBagLayoutUtils.add(panelCampos, "", getPainelTabelaUsuarios());
 
 		// Adiciona componentes no painel de botoes
 		panelBotoes.add(getBotaoSuspender());
@@ -79,8 +81,7 @@ public class TelaMonitorarUsuarios extends JInternalFrame implements Observer{
 		panelBotoes.add(getBotaoEditar());
 
 		// adiciona os paineis ao frame
-		this.add(panelBotoes, BorderLayout.SOUTH);		
-		//this.add(panelCampos, BorderLayout.CENTER);
+		this.add(panelBotoes, BorderLayout.SOUTH);
 		this.add(getPainelTabelaUsuarios(), BorderLayout.CENTER);
 	}
 	
@@ -133,12 +134,12 @@ public class TelaMonitorarUsuarios extends JInternalFrame implements Observer{
 	/**
 	 * Instancia a tabela MonitorarUsuarios que contem os usuarios cadastrados
 	 * 
-	 * @return JTable tbMonitararUsuarios
+	 * @return JTable tbMonitorarUsuarios
 	 */
 	private JTable getTbMonitorarUsuarios() {
-		tbMonitararUsuarios = new JTable(getModeloTabelaUsuarios());
-		
-		return tbMonitararUsuarios;
+		tbMonitorarUsuarios = new JTable(getModeloTabelaUsuarios());		
+		tbMonitorarUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);		
+		return tbMonitorarUsuarios;
 	}
 	
 	/**
@@ -159,13 +160,37 @@ public class TelaMonitorarUsuarios extends JInternalFrame implements Observer{
 	private class ListenerBotoes implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals(ConstantsFrontEnd.MONITORAR_USUARIOS_SUSPENDER)) {
-				
-			} else if (e.getActionCommand().equals(ConstantsFrontEnd.MONITORAR_USUARIOS_EDITAR_PAPEIS)) {
-								
-			} else if (e.getActionCommand().equals(ConstantsFrontEnd.MONITORAR_USUARIOS_EDITAR)) {
-				
-			}
+			
+			if (tbMonitorarUsuarios.getSelectedRowCount() == 1){
+				if (e.getActionCommand().equals(ConstantsFrontEnd.MONITORAR_USUARIOS_SUSPENDER)) {
+					String msg = ConstantsFrontEnd.MONITORAR_USUARIOS_MSG_SUSPENDER.replaceAll("#", tbMonitorarUsuarios.getValueAt(tbMonitorarUsuarios.getSelectedRow(), 1).toString()); 
+					int resposta = JOptionPane.showConfirmDialog(null, msg, ConstantsFrontEnd.MONITORAR_USUARIOS_TITULO_TELA, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (resposta == JOptionPane.YES_OPTION)	{
+						
+						// TODO : Fazer a chamada para o command para suspender o usuario
+																													
+					}
+					
+				} else if (e.getActionCommand().equals(ConstantsFrontEnd.MONITORAR_USUARIOS_EDITAR_PAPEIS)) {
+					
+					if (editarPapeisUsuario == null || editarPapeisUsuario.isClosed()){
+						editarPapeisUsuario = new TelaEditarPapeisUsuario();
+						desktop.novaJanela(editarPapeisUsuario);
+					} else
+						editarPapeisUsuario.toFront();
+									
+				} else if (e.getActionCommand().equals(ConstantsFrontEnd.MONITORAR_USUARIOS_EDITAR)) {
+					
+					if (editarUsuario == null || editarUsuario.isClosed()){
+						editarUsuario = new TelaUsuario(true);
+						desktop.novaJanela(editarUsuario);
+					} else
+						editarUsuario.toFront();
+					
+				}
+			} else 
+				JOptionPane.showMessageDialog(null, ConstantsFrontEnd.MONITORAR_USUARIOS_MSG_SELECAO, ConstantsFrontEnd.MONITORAR_USUARIOS_TITULO_TELA, JOptionPane.WARNING_MESSAGE);
+			
 		}
 		
 	}

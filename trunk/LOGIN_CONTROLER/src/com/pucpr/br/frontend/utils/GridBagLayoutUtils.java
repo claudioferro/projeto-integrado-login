@@ -82,6 +82,35 @@ public class GridBagLayoutUtils {
 		cons.gridwidth = GridBagConstraints.REMAINDER;
 		panel.add(componente, cons);
 	}
+	
+	/**
+	 * Adiciona 3 componente de qualquer tipo na mesma linha
+	 * 
+	 * @param panel
+	 *            JPanel que será usado
+	 * @param componente
+	 *            Componente de edição 1
+	 * @param componente2
+	 *            Componente de edição 2
+	 * @param componente3
+	 *            Componente de edição 3
+	 */
+	public static void add(JPanel panel, JComponent componente, JComponent componente2,
+			JComponent componente3) {
+		GridBagConstraints cons = new GridBagConstraints();
+		cons.fill = GridBagConstraints.BOTH;
+		cons.insets = new Insets(4, 4, 4, 4);
+		cons.anchor = GridBagConstraints.NORTHWEST;		
+		cons.weightx = 1;
+		cons.gridwidth = 1;
+
+		panel.add(componente, cons);
+		cons.weightx = 0;
+		panel.add(componente2, cons);
+		cons.weightx = 1;
+		cons.gridwidth = GridBagConstraints.REMAINDER;
+		panel.add(componente3, cons);
+	}
 
 
 }
