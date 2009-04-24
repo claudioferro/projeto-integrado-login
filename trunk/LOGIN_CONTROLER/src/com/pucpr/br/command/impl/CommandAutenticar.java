@@ -12,6 +12,7 @@ import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.ControllerException;
 import com.pucpr.br.services.ServiceAutenticar;
 import com.pucpr.br.utils.ConstantsServices;
+import com.pucpr.br.utils.RMIProperties;
 
 public class CommandAutenticar implements Command {
 
@@ -39,8 +40,9 @@ public class CommandAutenticar implements Command {
 	private ServiceAutenticar obterServico() throws ControllerException {
 
 		try {
+						
 			ServiceAutenticar servico = (ServiceAutenticar) Naming
-					.lookup("rmi://localhost/"
+					.lookup(RMIProperties.obterInstacia().getURL()
 							+ ConstantsServices.SERVICE_AUTENTICAR);
 			return servico;
 		} catch (MalformedURLException e) {
