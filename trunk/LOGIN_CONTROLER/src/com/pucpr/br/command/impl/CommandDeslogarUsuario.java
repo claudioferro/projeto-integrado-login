@@ -11,24 +11,24 @@ import com.pucpr.br.command.Command;
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.ControllerException;
-import com.pucpr.br.services.ServiceManterUsuario;
+import com.pucpr.br.services.ServiceAutenticar;
 import com.pucpr.br.utils.ConstantsServices;
 
-public class CommandNovoUsuario implements Command {
+public class CommandDeslogarUsuario implements Command {
 
 	public Map<String, Object> execute(Map<String, Object> data) {
-		Boolean incluido = false;
+		Boolean removido = false;
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		Map<String, Object> retorno = new HashMap<String, Object>();
-
-		usuarioDTO.setLogin((String) data.get(ConstantsFrontEnd.USUARIO_LOGIN));
-		usuarioDTO.setSenha((String) data.get(ConstantsFrontEnd.USUARIO_SENHA));
-		usuarioDTO.setNome((String)data.get(ConstantsFrontEnd.USUARIO_NOME));
-
 		try {
+			if (data.containsKey(ConstantsFrontEnd.USUARIO)) {
+				usuarioDTO = (UsuarioDTO) data.get(ConstantsFrontEnd.USUARIO);
 
-			incluido = obterServico().incluirUsuario(usuarioDTO);
-			retorno.put(ConstantsFrontEnd.NOVO_USUARIO_RETORNO, incluido);
+				if (usuarioDTO != null) {
+					removido = obterServico().removerUsuario(usuarioDTO);
+				}
+			}
+			retorno.put(ConstantsFrontEnd.REMOVER_USUARIO_RETORNO, removido);
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -41,12 +41,12 @@ public class CommandNovoUsuario implements Command {
 		return retorno;
 	}
 
-	private ServiceManterUsuario obterServico() throws ControllerException {
+	private ServiceAutenticar obterServico() throws ControllerException {
 
 		try {
-			ServiceManterUsuario servico = (ServiceManterUsuario) Naming
+			ServiceAutenticar servico = (ServiceAutenticar) Naming
 					.lookup("rmi://localhost/"
-							+ ConstantsServices.SERVICE_MANTER_USUARIO);
+							+ ConstantsServices.SERVICE_AUTENTICAR);
 			return servico;
 		} catch (MalformedURLException e) {
 			throw new ControllerException(

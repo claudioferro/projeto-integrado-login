@@ -197,7 +197,7 @@ public class TelaUsuario extends JInternalFrame {
 				Map<String, Object> retorno = FrontController.executeCommand(
 						ConstantsFrontEnd.USUARIO_INCLUIR_USUARIO, data);
 
-				if (retorno.get(ConstantsFrontEnd.NOVOUSUARIO_RETORNO) == incluido) {
+				if (retorno.get(ConstantsFrontEnd.NOVO_USUARIO_RETORNO) == incluido) {
 					JOptionPane.showMessageDialog(null,
 							ConstantsFrontEnd.USUARIO_MSG_SUCESSO,
 							ConstantsFrontEnd.USUARIO_TITULO_TELA_NOVO_USUARIO,

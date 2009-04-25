@@ -30,7 +30,7 @@ public class CommandAutorizar implements Command {
 		try {
 
 			permissoes = obterServico().obterPermicoes(usuarioDTO);
-			retorno.put(ConstantsFrontEnd.PERMICOES_RETORNO, permissoes);
+			retorno.put(ConstantsFrontEnd.PERMISSOES_RETORNO, permissoes);
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

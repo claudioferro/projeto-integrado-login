@@ -32,6 +32,11 @@ public class FrontController {
 							if (acao.equals(ConstantsFrontEnd.USUARIO_EXCLUIR_PAPEL)) {
 								return CommandFactory.obterCommand(
 										CommandFactory.EXCLUIR_PAPEL).execute(data);
+							}else{
+								if (acao.equals(ConstantsFrontEnd.DESLOGAR_USUARIO)) {
+									return CommandFactory.obterCommand(
+											CommandFactory.DESLOGAR_USUARIO).execute(data);
+								}
 							}
 						}
 					}

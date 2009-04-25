@@ -8,27 +8,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.pucpr.br.command.Command;
-import com.pucpr.br.dto.UsuarioDTO;
+import com.pucpr.br.dto.PapelDTO;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.ControllerException;
-import com.pucpr.br.services.ServiceManterUsuario;
+import com.pucpr.br.services.ServiceManterPapel;
 import com.pucpr.br.utils.ConstantsServices;
 
-public class CommandNovoUsuario implements Command {
+public class CommandExcluirPapel implements Command {
 
 	public Map<String, Object> execute(Map<String, Object> data) {
-		Boolean incluido = false;
-		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		Boolean removido = false;
+		PapelDTO papel = new PapelDTO();
 		Map<String, Object> retorno = new HashMap<String, Object>();
 
-		usuarioDTO.setLogin((String) data.get(ConstantsFrontEnd.USUARIO_LOGIN));
-		usuarioDTO.setSenha((String) data.get(ConstantsFrontEnd.USUARIO_SENHA));
-		usuarioDTO.setNome((String)data.get(ConstantsFrontEnd.USUARIO_NOME));
+		papel = ((PapelDTO) data.get(ConstantsFrontEnd.MANTER_PAPEIS_PAPEL));
 
 		try {
 
-			incluido = obterServico().incluirUsuario(usuarioDTO);
-			retorno.put(ConstantsFrontEnd.NOVO_USUARIO_RETORNO, incluido);
+			removido = obterServico().excluirPapel(papel);
+			retorno.put(ConstantsFrontEnd.EXCLUIR_PAPEL_RETORNO, removido);
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -41,12 +39,12 @@ public class CommandNovoUsuario implements Command {
 		return retorno;
 	}
 
-	private ServiceManterUsuario obterServico() throws ControllerException {
+	private ServiceManterPapel obterServico() throws ControllerException {
 
 		try {
-			ServiceManterUsuario servico = (ServiceManterUsuario) Naming
+			ServiceManterPapel servico = (ServiceManterPapel) Naming
 					.lookup("rmi://localhost/"
-							+ ConstantsServices.SERVICE_MANTER_USUARIO);
+							+ ConstantsServices.SERVICE_MANTER_PAPEIS);
 			return servico;
 		} catch (MalformedURLException e) {
 			throw new ControllerException(
