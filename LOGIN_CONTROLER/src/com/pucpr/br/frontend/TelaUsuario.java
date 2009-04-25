@@ -5,13 +5,17 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.pucpr.br.command.FrontController;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 
@@ -21,54 +25,55 @@ import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
  * @version 1.0
  * 
  *          Tela de cadastramento e edição do Usuário
- *          
+ * 
  */
 public class TelaUsuario extends JInternalFrame {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 4379942071567806852L;
-	
-	//variaveis da tela
+
+	// variaveis da tela
 	private JTextField txtLogin;
 	private JTextField txtNome;
 	private JPasswordField txtSenha;
 	private JPasswordField txtConfirmarSenha;
-	
+
 	private JButton btnConfirmar;
-	private JButton btnCancelar;	
-	
+	private JButton btnCancelar;
+
 	private JPanel panelCampos;
 	private JPanel panelBotoes;
-	
+
 	private boolean editar;
-	
+
 	private ListenerBotoes listenerBotoes = new ListenerBotoes();
-	
+
 	/**
-	 * Construtor que recebe como parametro uma variavel booleana
-	 * para identificar se é um novo usuario ou se é para editar um usuario
+	 * Construtor que recebe como parametro uma variavel booleana para
+	 * identificar se é um novo usuario ou se é para editar um usuario
 	 * 
 	 * @param boolean editar
 	 */
-	public TelaUsuario(boolean editar){
-		super(ConstantsFrontEnd.USUARIO_TITULO_TELA_NOVO_USUARIO, false, true, false, false);
-		
+	public TelaUsuario(boolean editar) {
+		super(ConstantsFrontEnd.USUARIO_TITULO_TELA_NOVO_USUARIO, false, true,
+				false, false);
+
 		this.editar = editar;
-		
-		//inicia os componentes da janela
+
+		// inicia os componentes da janela
 		inicializarComponentes(editar);
-		
+
 		// Define o titulo da tela
 		if (editar)
 			setTitle(ConstantsFrontEnd.USUARIO_TITULO_TELA_EDITAR_USUARIO);
-		
+
 		// Recupera o tamanho da tela
 		java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit()
 				.getScreenSize();
 		// Define o tamanho e posição do frame
 		setBounds((screenSize.width - 400) / 2, (screenSize.height - 300) / 2,
 				400, 250);
-		
+
 		setVisible(true);
 	}
 
@@ -76,7 +81,7 @@ public class TelaUsuario extends JInternalFrame {
 	 * Método para instanciar os componentes da tela
 	 */
 	private void inicializarComponentes(boolean editar) {
-		
+
 		// Inicializando paineis
 		panelCampos = new JPanel(new GridBagLayout());
 
@@ -89,18 +94,19 @@ public class TelaUsuario extends JInternalFrame {
 				getTextNome());
 		GridBagLayoutUtils.add(panelCampos, ConstantsFrontEnd.USUARIO_SENHA,
 				getTextSenha());
-		GridBagLayoutUtils.add(panelCampos, ConstantsFrontEnd.USUARIO_CONFIRMAR_SENHA,
+		GridBagLayoutUtils.add(panelCampos,
+				ConstantsFrontEnd.USUARIO_CONFIRMAR_SENHA,
 				getTextConfirmarSenha());
 
 		// Adiciona componentes no painel de botoes
 		panelBotoes.add(getBotaoConfirmar());
-		panelBotoes.add(getBotaoCancelar());		
+		panelBotoes.add(getBotaoCancelar());
 
 		// adiciona os paineis ao frame
 		this.add(panelBotoes, BorderLayout.SOUTH);
-		this.add(panelCampos, BorderLayout.CENTER);		
+		this.add(panelCampos, BorderLayout.CENTER);
 	}
-	
+
 	/**
 	 * Instancia o campo Login da Janela
 	 * 
@@ -113,7 +119,7 @@ public class TelaUsuario extends JInternalFrame {
 			txtLogin.setEnabled(false);
 		return txtLogin;
 	}
-	
+
 	/**
 	 * Instancia o campo Nome da Janela
 	 * 
@@ -135,7 +141,7 @@ public class TelaUsuario extends JInternalFrame {
 		txtSenha = new JPasswordField();
 		return txtSenha;
 	}
-	
+
 	/**
 	 * Instancia o campo Confirmar Senha da Janela
 	 * 
@@ -146,7 +152,7 @@ public class TelaUsuario extends JInternalFrame {
 		txtConfirmarSenha = new JPasswordField();
 		return txtConfirmarSenha;
 	}
-	
+
 	/**
 	 * Instancia o botão Confirmar da Janela
 	 * 
@@ -171,23 +177,46 @@ public class TelaUsuario extends JInternalFrame {
 		btnCancelar.addActionListener(listenerBotoes);
 		return btnCancelar;
 	}
-	
+
 	/**
 	 * Classe interna que implenta o ActionListener para as ações dos botões
-	 *
+	 * 
 	 */
 	private class ListenerBotoes implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals(ConstantsFrontEnd.USUARIO_CONFIRMAR)) {
-				
+			if (e.getActionCommand()
+					.equals(ConstantsFrontEnd.USUARIO_CONFIRMAR)) {
+				Map<String, Object> data = new HashMap<String, Object>();
+				Boolean incluido = true;
+				data.put(ConstantsFrontEnd.USUARIO_NOME, txtNome.getText());
+				data.put(ConstantsFrontEnd.USUARIO_LOGIN, txtLogin.getText());
+				data.put(ConstantsFrontEnd.USUARIO_SENHA, new String(txtSenha
+						.getPassword()));
+
+				Map<String, Object> retorno = FrontController.executeCommand(
+						ConstantsFrontEnd.USUARIO_INCLUIR_USUARIO, data);
+
+				if (retorno.get(ConstantsFrontEnd.NOVOUSUARIO_RETORNO) == incluido) {
+					JOptionPane.showMessageDialog(null,
+							ConstantsFrontEnd.USUARIO_MSG_SUCESSO,
+							ConstantsFrontEnd.USUARIO_TITULO_TELA_NOVO_USUARIO,
+							JOptionPane.INFORMATION_MESSAGE);
+
+				} else {
+					JOptionPane.showMessageDialog(null,
+							ConstantsFrontEnd.USUARIO_MSG_ERRO,
+							ConstantsFrontEnd.USUARIO_TITULO_TELA_NOVO_USUARIO,
+							JOptionPane.ERROR_MESSAGE);
+					dispose();
+				}
 			} else {
-				if (e.getActionCommand().equals(ConstantsFrontEnd.USUARIO_CANCELAR)) {
+				if (e.getActionCommand().equals(
+						ConstantsFrontEnd.USUARIO_CANCELAR)) {
 					dispose();
 				}
 			}
 		}
-
 	}
 
 }
