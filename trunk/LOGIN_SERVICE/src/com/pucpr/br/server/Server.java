@@ -22,13 +22,8 @@ public class Server {
 	/** Lista de usuarios logados no sistema */
 	private List<UsuarioDTO> listaUsuarios;
 
-	/** Lista de usuarios logados no sistema */
+	/** Instancia do servidor */
 	private static Server instancia;
-
-	public Server() {
-		listaUsuarios = new ArrayList<UsuarioDTO>();
-		criarServicos();
-	}
 
 	public static void main(String[] args) {
 
@@ -37,19 +32,20 @@ public class Server {
 	}
 
 	private void criarServicos() {
+		listaUsuarios = new ArrayList<UsuarioDTO>();
+
 		Registry registry;
 		try {
 			registry = LocateRegistry.getRegistry();
 		} catch (RemoteException e) {
 			throw new RuntimeException("Erro ao encontrar o Registry", e);
 		}
-
 		servicoManterUsuario(registry);
 		servicoAutenticar(registry);
 		servicoManterPermissoes(registry);
 	}
 
-	private static void servicoManterUsuario(Registry registry) {
+	private void servicoManterUsuario(Registry registry) {
 		ServiceManterUsuarioImpl serviceManterUsuario = new ServiceManterUsuarioImpl();
 
 		try {
@@ -68,7 +64,7 @@ public class Server {
 
 	}
 
-	private static void servicoAutenticar(Registry registry) {
+	private void servicoAutenticar(Registry registry) {
 		ServiceAutenticarImpl serviceAutenticar = new ServiceAutenticarImpl();
 
 		try {
@@ -86,7 +82,7 @@ public class Server {
 
 	}
 
-	private static void servicoManterPermissoes(Registry registry) {
+	private void servicoManterPermissoes(Registry registry) {
 		ServiceManterPermissoesImpl serviceManterPermissoes = new ServiceManterPermissoesImpl();
 
 		try {
@@ -122,9 +118,10 @@ public class Server {
 	 */
 	public static Server obterInstancia() {
 
-		if (instancia == null)
+		if (instancia == null) {
 			instancia = new Server();
-
+			instancia.criarServicos();
+		}
 		return instancia;
 	}
 
