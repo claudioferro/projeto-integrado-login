@@ -13,12 +13,13 @@ import com.pucpr.br.dto.UsuarioDTO;
  * @version 1.0
  * 
  *          Table Model para exibir a tabela com os usuarios cadastrados
- *          
+ * 
  */
 public class TableModelMonitorarUsuarios extends AbstractTableModel {
 
 	private static final int QTD_COLUNAS = 4;
-	private static final String[] colunas = { "Login", "Nome", "Situação", "Usando" };
+	private static final String[] colunas = { "Login", "Nome", "Situação",
+			"Usando" };
 	private static final long serialVersionUID = -1832671347224425102L;
 
 	/** referência da lista de usuarios */
@@ -46,7 +47,7 @@ public class TableModelMonitorarUsuarios extends AbstractTableModel {
 		}
 		
 		// TODO : Lista fake, precisa ser removida.
-		for (int i=0; i < 15; i++){
+		for (int i = 0; i < 15; i++) {
 			UsuarioDTO usuario = new UsuarioDTO();
 			usuario.setLogin("" + i);
 			usuario.setNome("Nome é " + i);
@@ -99,9 +100,17 @@ public class TableModelMonitorarUsuarios extends AbstractTableModel {
 		case 1:
 			return usuarios.getNome();
 		case 2:
-			return usuarios.getNome();
+			if (usuarios.isSituacao()) {
+				return "SIM";
+			} else {
+				return "NÃO";
+			}
 		case 3:
-			return usuarios.getNome();
+			if (usuarios.isUsando()) {
+				return "SIM";
+			} else {
+				return "NÃO";
+			}
 		default:
 			throw new IllegalArgumentException("coluna inválida");
 		}
