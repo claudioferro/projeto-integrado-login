@@ -1,6 +1,7 @@
 package com.pucpr.br.intc.dao;
 
-import java.util.Collection;
+
+import java.util.List;
 
 import com.pucpr.br.dto.PapelDTO;
 import com.pucpr.br.uteis.DAOException;
@@ -15,6 +16,6 @@ public interface DAOPapel {
 
 	//PapelDTO buscarPapel(UsuarioDTO papel) throws DAOException;
 
-	Collection<PapelDTO> listarPapeis() throws DAOException;
+	List<PapelDTO> listarPapeis() throws DAOException;
 
 }
