@@ -1,11 +1,15 @@
 package com.pucpr.br.services.impl;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.factory.dao.DAOFactory;
 import com.pucpr.br.factory.dao.sql.DAOFactorySQL;
 import com.pucpr.br.server.Server;
+import com.pucpr.br.services.ObserverManterUsuario;
 import com.pucpr.br.services.ServiceAutenticar;
 import com.pucpr.br.uteis.DAOException;
 import com.pucpr.br.utils.CriptografiaUtils;
@@ -23,6 +27,9 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 
 	/** Lista de usuarios que estao logados no sistema */
 	List<UsuarioDTO> listaUsuarios;
+
+	/** lista de ouvintes do servico remoto */
+	private List<ObserverManterUsuario> ouvintes = new ArrayList<ObserverManterUsuario>();
 
 	public ServiceAutenticarImpl() {
 		listaUsuarios = Server.obterInstancia().getListaUsuarios();
@@ -54,6 +61,7 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 				synchronized (listaUsuarios) {
 					listaUsuarios.add(usuario);
 				}
+				notificarOuvintes();
 
 				return true;
 			}
@@ -64,4 +72,45 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 		return false;
 	}
 
+	public void adicionarOuvinte(ObserverManterUsuario o)
+			throws RemoteException {
+		synchronized (ouvintes) {
+			ouvintes.add(o);
+		}
+	}
+
+	public List<UsuarioDTO> getListaUsuarios() {
+		return listaUsuarios;
+	}
+
+	public void setListaUsuarios(List<UsuarioDTO> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
+	}
+
+	public List<UsuarioDTO> obterListaUsuarios() throws RemoteException {
+
+		return listaUsuarios;
+	}
+
+	/**
+	 * Notificar todos os ouvintes sobre a alteracao realizada. Observar que o
+	 * acesso a esta lista é sincronizado, uma vez que o acesso pode ser
+	 * concorrente.
+	 */
+	private void notificarOuvintes() {
+		synchronized (ouvintes) {
+			Iterator<ObserverManterUsuario> i = ouvintes.iterator();
+			while (i.hasNext()) {
+				ObserverManterUsuario o = i.next();
+				try {
+					o.atualizar();
+				} catch (RemoteException e) {
+					System.out.println("Erro ao executar um dos ouvintes"
+							+ e.getMessage() + ". continuando.");
+					i.remove();
+				}
+			}
+		}
+
+	}
 }
