@@ -27,4 +27,5 @@ public interface ServiceAutenticar extends Remote {
 	 */
 	public List<UsuarioDTO> obterListaUsuarios() throws RemoteException;
 
+	public boolean removerUsuario(UsuarioDTO usuario) throws RemoteException;
 }

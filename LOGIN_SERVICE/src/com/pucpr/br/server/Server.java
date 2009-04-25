@@ -33,6 +33,21 @@ public class Server {
 
 	}
 
+	// private Server() {
+	//
+	// Registry registry;
+	// try {
+	// registry = LocateRegistry.getRegistry();
+	// servicoManterUsuario(registry);
+	// servicoAutenticar(registry);
+	// servicoManterPermissoes(registry);
+	// servicoManterPapeis(registry);
+	// } catch (RemoteException e) {
+	// throw new RuntimeException("Erro ao encontrar o Registry", e);
+	// }
+	//
+	// }
+
 	private void criarServicos() {
 		listaUsuarios = new ArrayList<UsuarioDTO>();
 
@@ -105,12 +120,12 @@ public class Server {
 		}
 
 	}
-	
+
 	private void servicoManterPapeis(Registry registry) {
-		ServiceManterPapelImpl serviceManterPapel= new ServiceManterPapelImpl();
+		ServiceManterPapelImpl serviceManterPapel = new ServiceManterPapelImpl();
 
 		try {
-			ServiceManterPapel stubManterPapel= (ServiceManterPapel) UnicastRemoteObject
+			ServiceManterPapel stubManterPapel = (ServiceManterPapel) UnicastRemoteObject
 					.exportObject(serviceManterPapel, 0);
 
 			registry.bind(ConstantsServices.SERVICE_MANTER_PAPEIS,
@@ -118,11 +133,9 @@ public class Server {
 			System.out.println("Serviço: Manter Papel ........ OK");
 
 		} catch (RemoteException e) {
-			throw new RuntimeException("Erro ao criar stub Manter Papel",
-					e);
+			throw new RuntimeException("Erro ao criar stub Manter Papel", e);
 		} catch (AlreadyBoundException e) {
-			throw new RuntimeException("Erro ao criar stub Manter Papel",
-					e);
+			throw new RuntimeException("Erro ao criar stub Manter Papel", e);
 		}
 
 	}

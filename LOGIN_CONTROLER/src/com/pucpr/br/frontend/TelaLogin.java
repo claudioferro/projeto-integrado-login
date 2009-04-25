@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -18,6 +20,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.pucpr.br.command.FrontController;
+import com.pucpr.br.dto.PermissaoDTO;
+import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 
@@ -154,6 +158,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener {
 	 */
 	private class ListenerBotoes implements ActionListener {
 
+		@SuppressWarnings("unchecked")
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand().equals(ConstantsFrontEnd.LOGIN_CONFIRMAR)) {
 				HashMap<String, Object> data = new HashMap<String, Object>();
@@ -170,11 +175,26 @@ public class TelaLogin extends JInternalFrame implements ComponentListener {
 							ConstantsFrontEnd.LOGIN_MSG_FALHA_AUTENTICAR,
 							ConstantsFrontEnd.LOGIN_TITULO_TELA_LOGIN,
 							JOptionPane.WARNING_MESSAGE);
-				} else {
 
-					FrontController.executeCommand(
+				} else {
+					// coloca o usuario na tela
+					UsuarioDTO usuario = new UsuarioDTO();
+					usuario.setLogin(txtLogin.getText());
+					desktop.getData().put(ConstantsFrontEnd.USUARIO, usuario);
+
+					Map<String, Object> ret = FrontController.executeCommand(
 							ConstantsFrontEnd.LOGIN_AUTORIZAR, data);
-					
+					List<PermissaoDTO> listaPermissoes = new ArrayList<PermissaoDTO>();
+					listaPermissoes = (ArrayList<PermissaoDTO>) ret
+							.get(ConstantsFrontEnd.PERMISSOES_RETORNO);
+
+					for (PermissaoDTO p : listaPermissoes) {
+						if (p.getCodigoPapel() == 1) {
+							desbloquearBotoesAdmin();
+							break;
+						}
+					}
+
 					desbloquearBotoes();
 				}
 
@@ -190,15 +210,18 @@ public class TelaLogin extends JInternalFrame implements ComponentListener {
 		}
 	}
 
-	public void desbloquearBotoes()
-	{
+	public void desbloquearBotoes() {
 		desktop.getMenuArquivo().setEnabled(true);
 		desktop.getMenuEditar().setEnabled(true);
-		desktop.getMenuSegurança().setEnabled(true);
-		
+
 		dispose();
 	}
-	
+
+	public void desbloquearBotoesAdmin() {
+		desktop.getMenuSegurança().setEnabled(true);
+
+	}
+
 	@Override
 	public void componentHidden(ComponentEvent e) {
 	}

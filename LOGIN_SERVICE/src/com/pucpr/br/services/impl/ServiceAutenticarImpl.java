@@ -100,17 +100,23 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 			Collection<UsuarioDTO> u = factory.getDAOUsuario().listarUsuarios();
 
 			Iterator<UsuarioDTO> i = u.iterator();
+
 			while (i.hasNext()) {
 				UsuarioDTO usuario = i.next();
-
+				boolean isLogado = false;
 				for (UsuarioDTO logado : listaUsuarios) {
 					if (logado.getLogin().equals(usuario.getLogin())) {
-						usuario.setUsando(true);
-						retorno.add(usuario);
-					} else {
-						usuario.setUsando(false);
-						retorno.add(usuario);
+						isLogado = true;
+						break;
+
 					}
+				}
+				if (isLogado) {
+					usuario.setUsando(true);
+					retorno.add(usuario);
+				} else {
+					usuario.setUsando(false);
+					retorno.add(usuario);
 				}
 
 			}
@@ -142,4 +148,24 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 		}
 
 	}
+
+	public boolean removerUsuario(UsuarioDTO usuario) {
+
+		try {
+			for (UsuarioDTO u : listaUsuarios) {
+
+				if (u.getLogin().equals(usuario.getLogin())) {
+					listaUsuarios.remove(u);
+				}
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		notificarOuvintes();
+		return true;
+
+	}
+
 }

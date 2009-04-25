@@ -27,7 +27,7 @@ public class CommandNovoPapel implements Command {
 		try {
 
 			incluido = obterServico().incluirPapel(papel);
-			retorno.put(ConstantsFrontEnd.NOVOPAPEL_RETORNO, incluido);
+			retorno.put(ConstantsFrontEnd.NOVO_PAPEL_RETORNO, incluido);
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

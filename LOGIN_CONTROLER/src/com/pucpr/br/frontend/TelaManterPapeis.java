@@ -51,7 +51,7 @@ public class TelaManterPapeis extends JInternalFrame {
 	private ListenerBotoes listenerBotoes = new ListenerBotoes();
 
 	public TelaManterPapeis() {
-	super(ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, false, true, false,
+		super(ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, false, true, false,
 				false);
 
 		// inicia os componentes da janela
@@ -145,18 +145,21 @@ public class TelaManterPapeis extends JInternalFrame {
 	 * 
 	 * @return List<PapelDTO> listaPapeis
 	 */
+	@SuppressWarnings("unchecked")
 	private List<PapelDTO> carregarListaPapeis() {
-		//List<PapelDTO> listaPapeis = new ArrayList<PapelDTO>();
+		// List<PapelDTO> listaPapeis = new ArrayList<PapelDTO>();
 
 		// TODO: Fazer a chamada para o command para carregar a lista de Papeis
 		Map<String, Object> data = new HashMap<String, Object>();
-		Map<String, Object> retorno = FrontController
-		.executeCommand(
-				ConstantsFrontEnd.MANTER_PAPEIS_LISTAR,
-				data);
-		
-		List<PapelDTO> listaPapeis = (List<PapelDTO>)retorno.get(ConstantsFrontEnd.RETORNO_LISTA_PAPEIS);
-		
+		Map<String, Object> retorno = FrontController.executeCommand(
+				ConstantsFrontEnd.MANTER_PAPEIS_LISTAR, data);
+
+		List<PapelDTO> listaPapeis = new ArrayList<PapelDTO>();
+		listaPapeis = (List<PapelDTO>) retorno
+				.get(ConstantsFrontEnd.RETORNO_LISTA_PAPEIS);
+
+		repaint();
+
 		return listaPapeis;
 	}
 
@@ -185,13 +188,16 @@ public class TelaManterPapeis extends JInternalFrame {
 									ConstantsFrontEnd.USUARIO_INCLUIR_PAPEL,
 									data);
 
-					if (retorno.get(ConstantsFrontEnd.NOVOPAPEL_RETORNO) == incluido) {
+					if (retorno.get(ConstantsFrontEnd.NOVO_PAPEL_RETORNO) == incluido) {
 						JOptionPane
 								.showMessageDialog(
 										null,
 										ConstantsFrontEnd.MANTER_PAPEIS_MSG_INCLUIR_SUCESSO,
 										ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA,
 										JOptionPane.INFORMATION_MESSAGE);
+						listPapeis.setListData(new Vector<PapelDTO>(
+								carregarListaPapeis()));
+
 					} else {
 						JOptionPane
 								.showMessageDialog(
@@ -219,17 +225,38 @@ public class TelaManterPapeis extends JInternalFrame {
 								JOptionPane.QUESTION_MESSAGE);
 						if (resposta == JOptionPane.YES_OPTION) {
 
-
 							Map<String, Object> data = new HashMap<String, Object>();
-							data.put(ConstantsFrontEnd.MANTER_PAPEIS_NOME_PAPEL,
-									(PapelDTO)listPapeis.getSelectedValue());
+							data.put(ConstantsFrontEnd.MANTER_PAPEIS_PAPEL,
+									(PapelDTO) listPapeis.getSelectedValue());
+							Boolean excluido = true;
 
-							FrontController
+							Map<String, Object> retorno = FrontController
 									.executeCommand(
 											ConstantsFrontEnd.USUARIO_EXCLUIR_PAPEL,
 											data);
 
-							carregarListaPapeis();
+							if (retorno
+									.get(ConstantsFrontEnd.EXCLUIR_PAPEL_RETORNO) == excluido) {
+
+								listPapeis.setListData(new Vector<PapelDTO>(
+										carregarListaPapeis()));
+
+								JOptionPane
+										.showMessageDialog(
+												null,
+												ConstantsFrontEnd.MANTER_PAPEIS_MSG_EXCLUIDO_SUCESSO,
+												ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA,
+												JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								JOptionPane
+										.showMessageDialog(
+												null,
+												ConstantsFrontEnd.MANTER_PAPEIS_MSG_EXCLUIDO_ERRO,
+												ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA,
+												JOptionPane.WARNING_MESSAGE);
+
+							}
+
 						}
 					} else
 						JOptionPane.showMessageDialog(null,
@@ -238,10 +265,8 @@ public class TelaManterPapeis extends JInternalFrame {
 								JOptionPane.WARNING_MESSAGE);
 				}
 			}
-			
-			
-		}
 
+		}
 	}
 
 }
