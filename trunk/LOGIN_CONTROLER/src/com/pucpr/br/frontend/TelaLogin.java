@@ -174,7 +174,8 @@ public class TelaLogin extends JInternalFrame implements ComponentListener {
 
 					FrontController.executeCommand(
 							ConstantsFrontEnd.LOGIN_AUTORIZAR, data);
-					dispose();
+					
+					desbloquearBotoes();
 				}
 
 			} else if (e.getActionCommand().equals(
@@ -189,6 +190,15 @@ public class TelaLogin extends JInternalFrame implements ComponentListener {
 		}
 	}
 
+	public void desbloquearBotoes()
+	{
+		desktop.getMenuArquivo().setEnabled(true);
+		desktop.getMenuEditar().setEnabled(true);
+		desktop.getMenuSegurança().setEnabled(true);
+		
+		dispose();
+	}
+	
 	@Override
 	public void componentHidden(ComponentEvent e) {
 	}
