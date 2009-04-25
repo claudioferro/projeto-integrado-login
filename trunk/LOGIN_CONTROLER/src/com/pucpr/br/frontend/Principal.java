@@ -95,7 +95,7 @@ public class Principal extends JFrame {
 			}
 
 		});
-
+		menuArquivo.setEnabled(false);
 		menuArquivo.add(itemSair);
 
 		// Adiciona menu Editar
@@ -138,7 +138,7 @@ public class Principal extends JFrame {
 			}
 
 		});
-		//menuSegurança.setEnabled(false);
+		menuSegurança.setEnabled(false);
 		menuSegurança.add(itemMonitorarUsuarios);
 		
 		JMenuItem itemManterPapeis = new JMenuItem("Manter Papéis");
@@ -224,6 +224,28 @@ public class Principal extends JFrame {
 	public void setData(Map<String, Object> data) {
 		this.data = data;
 	}
-	
-	
+
+	public JMenu getMenuArquivo() {
+		return menuArquivo;
+	}
+
+	public void setMenuArquivo(JMenu menuArquivo) {
+		this.menuArquivo = menuArquivo;
+	}
+
+	public JMenu getMenuEditar() {
+		return menuEditar;
+	}
+
+	public void setMenuEditar(JMenu menuEditar) {
+		this.menuEditar = menuEditar;
+	}
+
+	public JMenu getMenuSegurança() {
+		return menuSegurança;
+	}
+
+	public void setMenuSegurança(JMenu menuSegurança) {
+		this.menuSegurança = menuSegurança;
+	}	
 }
