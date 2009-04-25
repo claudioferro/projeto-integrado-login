@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.pucpr.br.dto.PapelDTO;
 import com.pucpr.br.intc.dao.DAOPapel;
@@ -157,9 +157,9 @@ public class DAOPapelSQL implements DAOPapel {
 	 * @return Collection PapelDTO
 	 * @throws DAOException 
 	 */
-	public Collection<PapelDTO> listarPapeis() throws DAOException {
+	public List<PapelDTO> listarPapeis() throws DAOException {
 
-		Collection<PapelDTO> listaPapeis = new ArrayList<PapelDTO>();
+		List<PapelDTO> listaPapeis = new ArrayList<PapelDTO>();
 		Connection con = null;
 		PapelDTO PapelDTO = null;
 		
