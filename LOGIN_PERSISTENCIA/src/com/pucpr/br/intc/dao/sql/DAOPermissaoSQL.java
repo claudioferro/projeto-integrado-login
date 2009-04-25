@@ -18,82 +18,92 @@ import com.pucpr.br.uteis.DAOException;
  * 
  */
 public class DAOPermissaoSQL implements DAOPermissao {
-	
+
 	/**
 	 * Método responsável por efetuar a alteração dos dados de Permissão.
 	 * 
 	 * @param permissao
 	 * @return boolean
-	 * @throws DAOException 
+	 * @throws DAOException
 	 */
 	public boolean alterarPermissao(PermissaoDTO permissao) throws DAOException {
-		
+
 		boolean retorno = false;
-		Connection con  = null;
-		
+		Connection con = null;
+
 		try {
 			con = Conexao.obterInstancia().obterConexao();
-			
-			PreparedStatement pst = con.prepareStatement(montaAlterarPermissao());
-			
+
+			PreparedStatement pst = con
+					.prepareStatement(montaAlterarPermissao());
+
 			pst.setInt(1, permissao.getCodigoPapel());
 			pst.setInt(2, permissao.getCodigoPermissao());
-			
-			if(pst.executeUpdate() > 0)
+
+			if (pst.executeUpdate() > 0)
 				retorno = true;
-			
+
 			pst.close();
-			
+
 		} catch (SQLException e) {
-			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+			throw new DAOException(
+					"Ocorreu um erro com a execução do comando SQL!", e);
 		} catch (Exception e) {
 			throw new DAOException("Ocorreu um erro inesperado!", e);
-		}finally {
+		} finally {
 			try {
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
-				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+				throw new DAOException(
+						"Ocorreu um erro ao tentar fechar conexão com o banco de dados!",
+						e);
 			}
 		}
 		return retorno;
 	}
-	
-	
-	public Collection<PermissaoDTO> buscarPermissao(UsuarioDTO permissao) throws DAOException {
-		
+
+	public Collection<PermissaoDTO> buscarPermissao(UsuarioDTO permissao)
+			throws DAOException {
+
 		Collection<PermissaoDTO> listaPemissoesUsuario = new ArrayList<PermissaoDTO>();
 		Connection con = null;
 		PermissaoDTO PermissaoDTO = null;
-		
+
 		try {
 			con = Conexao.obterInstancia().obterConexao();
-			
-			PreparedStatement pst = con.prepareStatement(montaBuscaPermissoes());
-			
+
+			PreparedStatement pst = con
+					.prepareStatement(montaBuscaPermissoes());
+
+			pst.setString(1, permissao.getLogin());
+
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
 				PermissaoDTO = new PermissaoDTO();
 
-				PermissaoDTO.setCodigoPapel(rs.getInt("cod_papel"));
+				PermissaoDTO.setCodigoPapel(rs.getInt("codigo_papel"));
 
 				listaPemissoesUsuario.add(PermissaoDTO);
 			}
-			
+
 			rs.close();
 			pst.close();
 
 		} catch (SQLException e) {
-			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+			throw new DAOException(
+					"Ocorreu um erro com a execução do comando SQL!", e);
 		} catch (Exception e) {
 			throw new DAOException("Ocorreu um erro inesperado!", e);
-		}finally {
+		} finally {
 			try {
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
-				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+				throw new DAOException(
+						"Ocorreu um erro ao tentar fechar conexão com o banco de dados!",
+						e);
 			}
 		}
 		return listaPemissoesUsuario;
@@ -104,35 +114,39 @@ public class DAOPermissaoSQL implements DAOPermissao {
 	 * 
 	 * @param permissao
 	 * @return boolean
-	 * @throws DAOException 
+	 * @throws DAOException
 	 */
 	public boolean excluirPermissao(PermissaoDTO permissao) throws DAOException {
-		
+
 		boolean retorno = false;
-		Connection con  = null;
-				
+		Connection con = null;
+
 		try {
 			con = Conexao.obterInstancia().obterConexao();
-			
-			PreparedStatement pst = con.prepareStatement(montaDeletarPermissao());
-			
+
+			PreparedStatement pst = con
+					.prepareStatement(montaDeletarPermissao());
+
 			pst.setInt(1, permissao.getCodigoPermissao());
-			
-			if(pst.executeUpdate() > 0)
+
+			if (pst.executeUpdate() > 0)
 				retorno = true;
-			
+
 			pst.close();
-			
+
 		} catch (SQLException e) {
-			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+			throw new DAOException(
+					"Ocorreu um erro com a execução do comando SQL!", e);
 		} catch (Exception e) {
 			throw new DAOException("Ocorreu um erro inesperado!", e);
-		}finally {
+		} finally {
 			try {
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
-				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+				throw new DAOException(
+						"Ocorreu um erro ao tentar fechar conexão com o banco de dados!",
+						e);
 			}
 		}
 		return retorno;
@@ -143,36 +157,40 @@ public class DAOPermissaoSQL implements DAOPermissao {
 	 * 
 	 * @param papel
 	 * @return boolean
-	 * @throws DAOException 
+	 * @throws DAOException
 	 */
 	public boolean inserirPermissao(PermissaoDTO permissao) throws DAOException {
-		
+
 		boolean retorno = false;
-		Connection con  = null;
-		
+		Connection con = null;
+
 		try {
-			con  = Conexao.obterInstancia().obterConexao();
-			
-			PreparedStatement pst = con.prepareStatement(montaInserirPermissao());
+			con = Conexao.obterInstancia().obterConexao();
+
+			PreparedStatement pst = con
+					.prepareStatement(montaInserirPermissao());
 
 			pst.setInt(1, permissao.getCodigoPapel());
 			pst.setString(2, permissao.getLoginPessoa());
 
-			if(pst.executeUpdate() > 0)
+			if (pst.executeUpdate() > 0)
 				retorno = true;
-			
+
 			pst.close();
 
 		} catch (SQLException e) {
-			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+			throw new DAOException(
+					"Ocorreu um erro com a execução do comando SQL!", e);
 		} catch (Exception e) {
 			throw new DAOException("Ocorreu um erro inesperado!", e);
-		}finally {
+		} finally {
 			try {
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
-				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+				throw new DAOException(
+						"Ocorreu um erro ao tentar fechar conexão com o banco de dados!",
+						e);
 			}
 		}
 		return retorno;
@@ -182,19 +200,20 @@ public class DAOPermissaoSQL implements DAOPermissao {
 	 * Método responsável por retornar uma lista de todos as permissões
 	 * 
 	 * @return Collection PermissaoDTO
-	 * @throws DAOException 
+	 * @throws DAOException
 	 */
 	public Collection<PermissaoDTO> listarPermissoes() throws DAOException {
-		
+
 		Collection<PermissaoDTO> listaPemissoes = new ArrayList<PermissaoDTO>();
 		Connection con = null;
 		PermissaoDTO PermissaoDTO = null;
-		
+
 		try {
 			con = Conexao.obterInstancia().obterConexao();
-			
-			PreparedStatement pst = con.prepareStatement(montaListarPermissoes());
-			
+
+			PreparedStatement pst = con
+					.prepareStatement(montaListarPermissoes());
+
 			ResultSet rs = pst.executeQuery();
 
 			while (rs.next()) {
@@ -206,27 +225,31 @@ public class DAOPermissaoSQL implements DAOPermissao {
 
 				listaPemissoes.add(PermissaoDTO);
 			}
-			
+
 			rs.close();
 			pst.close();
 
 		} catch (SQLException e) {
-			throw new DAOException("Ocorreu um erro com a execução do comando SQL!", e);
+			throw new DAOException(
+					"Ocorreu um erro com a execução do comando SQL!", e);
 		} catch (Exception e) {
 			throw new DAOException("Ocorreu um erro inesperado!", e);
-		}finally {
+		} finally {
 			try {
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
-				throw new DAOException("Ocorreu um erro ao tentar fechar conexão com o banco de dados!", e);
+				throw new DAOException(
+						"Ocorreu um erro ao tentar fechar conexão com o banco de dados!",
+						e);
 			}
 		}
 		return listaPemissoes;
 	}
-	
+
 	/**
 	 * Monsta o sql para atualização da permissão
+	 * 
 	 * @return String sql
 	 */
 	private String montaAlterarPermissao() {
@@ -242,9 +265,10 @@ public class DAOPermissaoSQL implements DAOPermissao {
 
 		return sql.toString();
 	}
-	
+
 	/**
 	 * Monsta o sql para deleção da permissão
+	 * 
 	 * @return String sql
 	 */
 	private String montaDeletarPermissao() {
@@ -258,9 +282,10 @@ public class DAOPermissaoSQL implements DAOPermissao {
 
 		return sql.toString();
 	}
-	
+
 	/**
 	 * Monsta o sql para inserção da uma nova permissão
+	 * 
 	 * @return String sql
 	 */
 	private String montaInserirPermissao() {
@@ -276,35 +301,35 @@ public class DAOPermissaoSQL implements DAOPermissao {
 
 		return sql.toString();
 	}
-	
+
 	/**
 	 * Monta o sql para retornar uma lista de permissões
+	 * 
 	 * @return String sql
 	 */
-	public String montaListarPermissoes()
-	{
+	public String montaListarPermissoes() {
 		StringBuffer sql = new StringBuffer();
-		
-		sql.append(" SELECT "); 
+
+		sql.append(" SELECT ");
 		sql.append("     pe.codigo_permissao, pa.nome, pe.login_pessoa ");
-		sql.append("   FROM "); 
+		sql.append("   FROM ");
 		sql.append("     permissao pe, papel pa ");
-		sql.append("  WHERE "); 
+		sql.append("  WHERE ");
 		sql.append("     pe.cod_papel = pa.codigo_papel ");
 		sql.append("  ORDER BY ");
 		sql.append("     pa.nome ");
-		
+
 		return sql.toString();
 	}
-	
+
 	/**
 	 * Monta o sql para retornar uma permissão de um determinado usuário
+	 * 
 	 * @return String sql
 	 */
-	public String montaBuscaPermissoes()
-	{
+	public String montaBuscaPermissoes() {
 		StringBuffer sql = new StringBuffer();
-		
+
 		sql.append(" SELECT ");
 		sql.append(" 	pa.codigo_papel ");
 		sql.append(" FROM ");
@@ -315,7 +340,7 @@ public class DAOPermissaoSQL implements DAOPermissao {
 		sql.append(" 	pe.cod_papel = pa.codigo_papel ");
 		sql.append(" AND ");
 		sql.append(" 	us.login = ? ");
-		
+
 		return sql.toString();
 	}
 }
