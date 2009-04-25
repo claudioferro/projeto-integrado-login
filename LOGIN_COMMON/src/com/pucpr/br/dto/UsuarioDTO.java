@@ -18,6 +18,16 @@ public class UsuarioDTO implements Serializable {
 
 	private boolean situacao;
 
+	private boolean usando;
+
+	public boolean isUsando() {
+		return usando;
+	}
+
+	public void setUsando(boolean usando) {
+		this.usando = usando;
+	}
+
 	public String getNome() {
 		return nome;
 	}

@@ -5,7 +5,10 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.services.ServiceAutenticar;
 import com.pucpr.br.services.ServiceManterPermissoes;
 import com.pucpr.br.services.ServiceManterUsuario;
@@ -16,17 +19,34 @@ import com.pucpr.br.utils.ConstantsServices;
 
 public class Server {
 
+	/** Lista de usuarios logados no sistema */
+	private List<UsuarioDTO> listaUsuarios;
+
+	/** Lista de usuarios logados no sistema */
+	private static Server instancia;
+
+	public Server() {
+		listaUsuarios = new ArrayList<UsuarioDTO>();
+		criarServicos();
+	}
+
 	public static void main(String[] args) {
+
+		Server.obterInstancia();
+
+	}
+
+	private void criarServicos() {
 		Registry registry;
 		try {
 			registry = LocateRegistry.getRegistry();
 		} catch (RemoteException e) {
 			throw new RuntimeException("Erro ao encontrar o Registry", e);
 		}
+
 		servicoManterUsuario(registry);
 		servicoAutenticar(registry);
 		servicoManterPermissoes(registry);
-
 	}
 
 	private static void servicoManterUsuario(Registry registry) {
@@ -85,6 +105,27 @@ public class Server {
 					e);
 		}
 
+	}
+
+	public List<UsuarioDTO> getListaUsuarios() {
+		return listaUsuarios;
+	}
+
+	public void setListaUsuarios(List<UsuarioDTO> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
+	}
+
+	/**
+	 * Devolve a instância do singleton
+	 * 
+	 * @return
+	 */
+	public static Server obterInstancia() {
+
+		if (instancia == null)
+			instancia = new Server();
+
+		return instancia;
 	}
 
 }
