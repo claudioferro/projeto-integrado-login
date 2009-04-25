@@ -19,7 +19,16 @@ public class ServiceManterPapelImpl implements ServiceManterPapel {
 	}
 
 	public boolean excluirPapel(PapelDTO papel) {
-		return false;
+		
+		boolean retorno = false;
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		try {
+			retorno = factory.getDAOPapel().excluirPapel(papel);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 
 	public boolean incluirPapel(PapelDTO papel) {
@@ -36,7 +45,16 @@ public class ServiceManterPapelImpl implements ServiceManterPapel {
 	}
 
 	public List<PapelDTO> listarPapeis() {
-		return null;
+		
+		List<PapelDTO> retorno = null;
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		try {
+			retorno = factory.getDAOPapel().listarPapeis();
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 
 }
