@@ -20,6 +20,11 @@ public class FrontController {
 				if (acao.equals(ConstantsFrontEnd.USUARIO_INCLUIR_USUARIO)) {
 					return CommandFactory.obterCommand(
 							CommandFactory.NOVO_USUARIO).execute(data);
+				}else{
+					if (acao.equals(ConstantsFrontEnd.USUARIO_INCLUIR_PAPEL)) {
+						return CommandFactory.obterCommand(
+								CommandFactory.NOVO_PAPEL).execute(data);
+					}
 				}
 			}
 		}
