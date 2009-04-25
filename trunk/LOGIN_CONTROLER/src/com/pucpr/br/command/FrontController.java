@@ -24,11 +24,21 @@ public class FrontController {
 					if (acao.equals(ConstantsFrontEnd.USUARIO_INCLUIR_PAPEL)) {
 						return CommandFactory.obterCommand(
 								CommandFactory.NOVO_PAPEL).execute(data);
+					}else{
+						if (acao.equals(ConstantsFrontEnd.MANTER_PAPEIS_LISTAR)) {
+							return CommandFactory.obterCommand(
+									CommandFactory.LISTAR_PAPEIS).execute(data);
+						}else{
+							if (acao.equals(ConstantsFrontEnd.USUARIO_EXCLUIR_PAPEL)) {
+								return CommandFactory.obterCommand(
+										CommandFactory.EXCLUIR_PAPEL).execute(data);
+							}
+						}
 					}
 				}
 			}
 		}
-
+		
 		return null;
 	}
 
