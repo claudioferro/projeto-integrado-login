@@ -89,7 +89,6 @@ public class CommandManterListaUsuarios extends Observable implements
 	public void atualizar() throws RemoteException {
 		setChanged();
 		notifyObservers();
-
 	}
 
 	public synchronized void addObserver(Observer o) {

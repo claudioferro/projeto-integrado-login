@@ -2,6 +2,7 @@ package com.pucpr.br.services.impl;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -89,7 +90,35 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 
 	public List<UsuarioDTO> obterListaUsuarios() throws RemoteException {
 
-		return listaUsuarios;
+		// Recupera uma fabrica de DAO SQL
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		ArrayList<UsuarioDTO> retorno = new ArrayList<UsuarioDTO>();
+		// Verifica se usuario existe
+		try {
+
+			Collection<UsuarioDTO> u = factory.getDAOUsuario().listarUsuarios();
+
+			Iterator<UsuarioDTO> i = u.iterator();
+			while (i.hasNext()) {
+				UsuarioDTO usuario = i.next();
+
+				for (UsuarioDTO logado : listaUsuarios) {
+					if (logado.getLogin().equals(usuario.getLogin())) {
+						usuario.setUsando(true);
+						retorno.add(usuario);
+					} else {
+						usuario.setUsando(false);
+						retorno.add(usuario);
+					}
+				}
+
+			}
+
+		} catch (DAOException e) {
+			new DAOException("Erro ao autenticar usuario", e);
+		}
+		return retorno;
 	}
 
 	/**
