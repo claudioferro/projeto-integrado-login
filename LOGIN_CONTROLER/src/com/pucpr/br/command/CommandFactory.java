@@ -2,6 +2,8 @@ package com.pucpr.br.command;
 
 import com.pucpr.br.command.impl.CommandAutenticar;
 import com.pucpr.br.command.impl.CommandAutorizar;
+import com.pucpr.br.command.impl.CommandExcluirPapel;
+import com.pucpr.br.command.impl.CommandListarPapeis;
 import com.pucpr.br.command.impl.CommandNovoPapel;
 import com.pucpr.br.command.impl.CommandNovoUsuario;
 
@@ -11,6 +13,8 @@ public class CommandFactory {
 	public static final int AUTORIZAR_USUARIO = 2;
 	public static final int NOVO_USUARIO = 3;
 	public static final int NOVO_PAPEL = 4;
+	public static final int LISTAR_PAPEIS = 5;
+	public static final int EXCLUIR_PAPEL = 6;
 
 	
 	public static Command obterCommand(int command) {
@@ -27,6 +31,12 @@ public class CommandFactory {
 			
 		case NOVO_PAPEL:
 			return new CommandNovoPapel();
+			
+		case LISTAR_PAPEIS:
+			return new CommandListarPapeis();
+			
+		case EXCLUIR_PAPEL:
+			return new CommandExcluirPapel();
 
 		default:
 			return null;

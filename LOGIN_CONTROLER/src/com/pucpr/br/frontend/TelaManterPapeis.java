@@ -51,7 +51,7 @@ public class TelaManterPapeis extends JInternalFrame {
 	private ListenerBotoes listenerBotoes = new ListenerBotoes();
 
 	public TelaManterPapeis() {
-		super(ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, false, true, false,
+	super(ConstantsFrontEnd.MANTER_PAPEIS_TITULO_TELA, false, true, false,
 				false);
 
 		// inicia os componentes da janela
@@ -146,10 +146,17 @@ public class TelaManterPapeis extends JInternalFrame {
 	 * @return List<PapelDTO> listaPapeis
 	 */
 	private List<PapelDTO> carregarListaPapeis() {
-		List<PapelDTO> listaPapeis = new ArrayList<PapelDTO>();
+		//List<PapelDTO> listaPapeis = new ArrayList<PapelDTO>();
 
 		// TODO: Fazer a chamada para o command para carregar a lista de Papeis
-
+		Map<String, Object> data = new HashMap<String, Object>();
+		Map<String, Object> retorno = FrontController
+		.executeCommand(
+				ConstantsFrontEnd.MANTER_PAPEIS_LISTAR,
+				data);
+		
+		List<PapelDTO> listaPapeis = (List<PapelDTO>)retorno.get(ConstantsFrontEnd.RETORNO_LISTA_PAPEIS);
+		
 		return listaPapeis;
 	}
 
@@ -212,8 +219,15 @@ public class TelaManterPapeis extends JInternalFrame {
 								JOptionPane.QUESTION_MESSAGE);
 						if (resposta == JOptionPane.YES_OPTION) {
 
-							// TODO : Fazer a chamada para o command excluir o
-							// papel selecionado
+
+							Map<String, Object> data = new HashMap<String, Object>();
+							data.put(ConstantsFrontEnd.MANTER_PAPEIS_NOME_PAPEL,
+									(PapelDTO)listPapeis.getSelectedValue());
+
+							FrontController
+									.executeCommand(
+											ConstantsFrontEnd.USUARIO_EXCLUIR_PAPEL,
+											data);
 
 							carregarListaPapeis();
 						}
@@ -224,6 +238,8 @@ public class TelaManterPapeis extends JInternalFrame {
 								JOptionPane.WARNING_MESSAGE);
 				}
 			}
+			
+			
 		}
 
 	}
