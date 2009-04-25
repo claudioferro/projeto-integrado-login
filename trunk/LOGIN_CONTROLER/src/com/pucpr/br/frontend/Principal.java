@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
+import java.util.Map;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -39,6 +40,8 @@ public class Principal extends JFrame {
 	private Principal principal;
 	private TelaManterPapeis manterPapeis;
 	private TelaMonitorarUsuarios monitorarUsuarios;
+	
+	private Map<String, Object> data;
 	
 	public Principal(){
 		super(":: PROJETO INTEGRADO ::");
@@ -213,4 +216,14 @@ public class Principal extends JFrame {
 		principal.repaint();
 
 	}
+
+	public Map<String, Object> getData() {
+		return data;
+	}
+
+	public void setData(Map<String, Object> data) {
+		this.data = data;
+	}
+	
+	
 }

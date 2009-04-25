@@ -8,14 +8,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.pucpr.br.command.FrontController;
+import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 
@@ -25,37 +28,38 @@ import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
  * @version 1.2
  * 
  *          Tela de login que contem os campos para a autenticação do usuário
- *          
+ * 
  */
 
-public class TelaLogin extends JInternalFrame implements ComponentListener{
+public class TelaLogin extends JInternalFrame implements ComponentListener {
 
 	/** serialVersionUID */
 	private static final long serialVersionUID = 1L;
-	
-	//variaveis da tela
+
+	// variaveis da tela
 	private Principal desktop;
 
 	private JTextField txtLogin;
 	private JPasswordField txtSenha;
 
 	private JButton btnConfirmar;
-	private JButton btnNovoUsuario;	
+	private JButton btnNovoUsuario;
 
 	private JPanel panelCampos;
 	private JPanel panelBotoes;
 
 	private ListenerBotoes listenerBotoes = new ListenerBotoes();
-	
+
 	private TelaUsuario telaUsuario;
 
 	public TelaLogin(Principal desktop) {
-		super(ConstantsFrontEnd.LOGIN_TITULO_TELA_LOGIN, false, false, false, false);
-		
-		//seta a tela "mae" da aplicação
+		super(ConstantsFrontEnd.LOGIN_TITULO_TELA_LOGIN, false, false, false,
+				false);
+
+		// seta a tela "mae" da aplicação
 		this.desktop = desktop;
-		
-		//inicia os componentes da janela
+
+		// inicia os componentes da janela
 		inicializarComponentes();
 
 		// Recupera o tamanho da tela
@@ -64,7 +68,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 		// Define o tamanho e posição do frame
 		setBounds((screenSize.width - 300) / 2, (screenSize.height - 250) / 2,
 				300, 150);
-		addComponentListener(this);	
+		addComponentListener(this);
 		setVisible(true);
 
 	}
@@ -86,7 +90,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 				getTextSenha());
 
 		// Adiciona componentes no painel de botoes
-		panelBotoes.add(getBotaoConfirmar());		
+		panelBotoes.add(getBotaoConfirmar());
 		panelBotoes.add(getBotaoNovoUsuario());
 
 		// adiciona os paineis ao frame
@@ -102,9 +106,9 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 	 */
 	private JButton getBotaoConfirmar() {
 
-		btnConfirmar = new JButton(ConstantsFrontEnd.LOGIN_CONFIRMAR);		
+		btnConfirmar = new JButton(ConstantsFrontEnd.LOGIN_CONFIRMAR);
 		btnConfirmar.setActionCommand(ConstantsFrontEnd.LOGIN_CONFIRMAR);
-		//adiciona um listener para o botão
+		// adiciona um listener para o botão
 		btnConfirmar.addActionListener(listenerBotoes);
 		return btnConfirmar;
 	}
@@ -117,7 +121,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 	private JButton getBotaoNovoUsuario() {
 
 		btnNovoUsuario = new JButton(ConstantsFrontEnd.LOGIN_NOVO_USUARIO);
-		//adiciona um listener para o botão
+		// adiciona um listener para o botão
 		btnNovoUsuario.addActionListener(listenerBotoes);
 		return btnNovoUsuario;
 	}
@@ -147,7 +151,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 
 	/**
 	 * Classe interna que implenta o ActionListener para as ações dos botões
-	 *
+	 * 
 	 */
 	private class ListenerBotoes implements ActionListener {
 
@@ -155,26 +159,40 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 			if (e.getActionCommand().equals(ConstantsFrontEnd.LOGIN_CONFIRMAR)) {
 				HashMap<String, Object> data = new HashMap<String, Object>();
 				data.put(ConstantsFrontEnd.LOGIN_LOGIN, txtLogin.getText());
-				data.put(ConstantsFrontEnd.LOGIN_SENHA, new String (txtSenha.getPassword()));
+				data.put(ConstantsFrontEnd.LOGIN_SENHA, new String(txtSenha
+						.getPassword()));
 
-				FrontController.executeCommand(
+				Map<String, Object> retorno = FrontController.executeCommand(
 						ConstantsFrontEnd.LOGIN_CONFIRMAR, data);
+				Boolean autenticado = true;
+				if (retorno.get(ConstantsFrontEnd.AUTENTICAR_RETORNO) != autenticado) {
+
+					JOptionPane.showMessageDialog(null,
+							ConstantsFrontEnd.LOGIN_MSG_FALHA_AUTENTICAR,
+							ConstantsFrontEnd.LOGIN_TITULO_TELA_LOGIN,
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+
+					FrontController.executeCommand(
+							ConstantsFrontEnd.lOGIN_AUTORIZAR, data);
+					dispose();
+				}
 
 			} else if (e.getActionCommand().equals(
-						ConstantsFrontEnd.LOGIN_NOVO_USUARIO)) {
-				//abre a janela para criar um novo usuario usando singleton
-				if (telaUsuario == null || telaUsuario.isClosed()){
+					ConstantsFrontEnd.LOGIN_NOVO_USUARIO)) {
+				// abre a janela para criar um novo usuario usando singleton
+				if (telaUsuario == null || telaUsuario.isClosed()) {
 					telaUsuario = new TelaUsuario(false);
 					desktop.novaJanela(telaUsuario);
 				} else
-					telaUsuario.toFront();			
+					telaUsuario.toFront();
 			}
 		}
-
 	}
 
 	@Override
-	public void componentHidden(ComponentEvent e) {}
+	public void componentHidden(ComponentEvent e) {
+	}
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
@@ -187,8 +205,10 @@ public class TelaLogin extends JInternalFrame implements ComponentListener{
 	}
 
 	@Override
-	public void componentResized(ComponentEvent e) {}
+	public void componentResized(ComponentEvent e) {
+	}
 
 	@Override
-	public void componentShown(ComponentEvent e) {}
+	public void componentShown(ComponentEvent e) {
+	}
 }
