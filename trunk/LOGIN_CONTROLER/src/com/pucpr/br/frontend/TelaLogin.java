@@ -18,7 +18,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.pucpr.br.command.FrontController;
-import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.GridBagLayoutUtils;
 
@@ -174,7 +173,7 @@ public class TelaLogin extends JInternalFrame implements ComponentListener {
 				} else {
 
 					FrontController.executeCommand(
-							ConstantsFrontEnd.lOGIN_AUTORIZAR, data);
+							ConstantsFrontEnd.LOGIN_AUTORIZAR, data);
 					dispose();
 				}
 

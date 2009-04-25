@@ -11,24 +11,24 @@ import com.pucpr.br.command.Command;
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.frontend.utils.ConstantsFrontEnd;
 import com.pucpr.br.frontend.utils.ControllerException;
-import com.pucpr.br.services.ServiceAutenticar;
+import com.pucpr.br.services.ServiceManterUsuario;
 import com.pucpr.br.utils.ConstantsServices;
 
-public class CommandAutenticar implements Command {
+public class CommandNovoUsuario implements Command {
 
 	public Map<String, Object> execute(Map<String, Object> data) {
-
-		Boolean autenticado = false;
+		Boolean incluido = false;
 		UsuarioDTO usuarioDTO = new UsuarioDTO();
 		Map<String, Object> retorno = new HashMap<String, Object>();
 
-		usuarioDTO.setLogin((String) data.get(ConstantsFrontEnd.LOGIN_LOGIN));
-		usuarioDTO.setSenha((String) data.get(ConstantsFrontEnd.LOGIN_SENHA));
+		usuarioDTO.setLogin((String) data.get(ConstantsFrontEnd.USUARIO_LOGIN));
+		usuarioDTO.setSenha((String) data.get(ConstantsFrontEnd.USUARIO_SENHA));
+		usuarioDTO.setNome((String)data.get(ConstantsFrontEnd.USUARIO_NOME));
 
 		try {
 
-			autenticado = obterServico().autenticarUsuario(usuarioDTO);
-			retorno.put(ConstantsFrontEnd.AUTENTICAR_RETORNO, autenticado);
+			incluido = obterServico().incluirUsuario(usuarioDTO);
+			retorno.put(ConstantsFrontEnd.NOVOUSUARIO_RETORNO, incluido);
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -37,16 +37,16 @@ public class CommandAutenticar implements Command {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return retorno;
 	}
 
-	private ServiceAutenticar obterServico() throws ControllerException {
+	private ServiceManterUsuario obterServico() throws ControllerException {
 
 		try {
-			ServiceAutenticar servico = (ServiceAutenticar) Naming
+			ServiceManterUsuario servico = (ServiceManterUsuario) Naming
 					.lookup("rmi://localhost/"
-							+ ConstantsServices.SERVICE_AUTENTICAR);
+							+ ConstantsServices.SERVICE_MANTER_USUARIO);
 			return servico;
 		} catch (MalformedURLException e) {
 			throw new ControllerException(

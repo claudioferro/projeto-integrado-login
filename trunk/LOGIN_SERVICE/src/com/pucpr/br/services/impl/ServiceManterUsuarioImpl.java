@@ -15,7 +15,7 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 
 	public boolean alterarUsuario(UsuarioDTO usuario) throws RemoteException {
 
-		boolean retorno    = false;
+		boolean retorno = false;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
 		try {
@@ -23,12 +23,12 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return retorno;
 	}
 
 	public UsuarioDTO buscarUsuario(UsuarioDTO usuario) throws RemoteException {
-		
+
 		UsuarioDTO retorno = null;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
@@ -41,8 +41,8 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 	}
 
 	public boolean excluirUsuario(UsuarioDTO usuario) throws RemoteException {
-		
-		boolean retorno    = false;
+
+		boolean retorno = false;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
 
 		try {
@@ -55,9 +55,12 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 
 	public boolean incluirUsuario(UsuarioDTO usuario) throws RemoteException {
 
-		boolean retorno    = false;
+		boolean retorno = false;
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
-		
+
+		// Criptografa a senha do usuario
+		usuario.setSenha(CriptografiaUtils.criptografar(usuario.getSenha()));
+
 		try {
 			retorno = factory.getDAOUsuario().inserirUsuario(usuario);
 		} catch (DAOException e) {
@@ -67,10 +70,10 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 	}
 
 	public List<UsuarioDTO> listarUsuarios() throws RemoteException {
-		
+
 		ArrayList<UsuarioDTO> listaUsuarios = new ArrayList<UsuarioDTO>();
 		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactory.SQL);
-		
+
 		try {
 			listaUsuarios = (ArrayList<UsuarioDTO>) factory.getDAOUsuario()
 					.listarUsuarios();
@@ -83,7 +86,7 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 	}
 
 	public static void main(String[] args) throws RemoteException {
-//TODO RETIRAR ISSO
+		// TODO RETIRAR ISSO
 		ServiceManterUsuarioImpl impl = new ServiceManterUsuarioImpl();
 
 		UsuarioDTO usuario = new UsuarioDTO();

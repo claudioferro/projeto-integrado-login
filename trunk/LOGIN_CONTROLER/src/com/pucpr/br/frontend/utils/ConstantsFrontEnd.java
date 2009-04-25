@@ -8,7 +8,7 @@ public class ConstantsFrontEnd {
 
 	// TelaLogin
 	public static final String LOGIN_CONFIRMAR = "Confirmar";
-	public static final String lOGIN_AUTORIZAR = "Autorizar";
+	public static final String LOGIN_AUTORIZAR = "Autorizar";
 	public static final String LOGIN_NOVO_USUARIO = "Novo usuário";
 	public static final String LOGIN_LOGIN = "Login :";
 	public static final String LOGIN_SENHA = "Senha :";
@@ -24,6 +24,9 @@ public class ConstantsFrontEnd {
 	public static final String USUARIO_CONFIRMAR = "Confirmar";
 	public static final String USUARIO_TITULO_TELA_NOVO_USUARIO = ":: NOVO USUARIO - PROJETO INTEGRADO ::";
 	public static final String USUARIO_TITULO_TELA_EDITAR_USUARIO = ":: EDITAR USUARIO - PROJETO INTEGRADO ::";
+	public static final String USUARIO_MSG_SUCESSO = "Usuario incluido com sucesso!";
+	public static final String USUARIO_MSG_ERRO = "Erro ao incluir usuario!";
+	public static final String USUARIO_INCLUIR_USUARIO = "incluirUsuario";
 
 	// TelaManterPapeis
 	public static final String MANTER_PAPEIS_TITULO_TELA = ":: MANTER PAPÉIS - PROJETO INTEGRADO ::";
@@ -56,5 +59,5 @@ public class ConstantsFrontEnd {
 	// Serviços
 	public static final String AUTENTICAR_RETORNO = "retornoAutenticar";
 	public static final String PERMICOES_RETORNO = "retornoPermicoes";
-
+	public static final String NOVOUSUARIO_RETORNO = "retornoNovoUsuario";
 }
