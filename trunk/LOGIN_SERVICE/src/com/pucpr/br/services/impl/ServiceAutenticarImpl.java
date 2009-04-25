@@ -1,8 +1,12 @@
 package com.pucpr.br.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.factory.dao.DAOFactory;
 import com.pucpr.br.factory.dao.sql.DAOFactorySQL;
+import com.pucpr.br.server.Server;
 import com.pucpr.br.services.ServiceAutenticar;
 import com.pucpr.br.uteis.DAOException;
 import com.pucpr.br.utils.CriptografiaUtils;
@@ -17,6 +21,14 @@ import com.pucpr.br.utils.CriptografiaUtils;
  */
 
 public class ServiceAutenticarImpl implements ServiceAutenticar {
+
+	/** Lista de usuarios que estao logados no sistema */
+	List<UsuarioDTO> listaUsuarios;
+
+	public ServiceAutenticarImpl() {
+		listaUsuarios = Server.obterInstancia().getListaUsuarios();
+
+	}
 
 	/**
 	 * Método responsável por autenticar usuario
@@ -40,7 +52,9 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 			if (u == null) {
 				return false;
 			} else {
-				adicionarServidor(u);
+				synchronized (listaUsuarios) {
+					listaUsuarios.add(usuario);
+				}
 
 				return true;
 			}
@@ -49,11 +63,6 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 			new DAOException("Erro ao autenticar usuario", e);
 		}
 		return false;
-	}
-
-	private void adicionarServidor(UsuarioDTO u) {
-		// TODO Recuperar um instancia do SERVER.JAVA (Singleton) e
-		// adicionar uma referencia do client logado no server.
 	}
 
 }
