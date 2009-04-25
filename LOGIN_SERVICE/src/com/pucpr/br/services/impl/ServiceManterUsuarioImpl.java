@@ -9,6 +9,7 @@ import com.pucpr.br.factory.dao.DAOFactory;
 import com.pucpr.br.factory.dao.sql.DAOFactorySQL;
 import com.pucpr.br.services.ServiceManterUsuario;
 import com.pucpr.br.uteis.DAOException;
+import com.pucpr.br.utils.CriptografiaUtils;
 
 public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 
@@ -82,14 +83,14 @@ public class ServiceManterUsuarioImpl implements ServiceManterUsuario {
 	}
 
 	public static void main(String[] args) throws RemoteException {
-
+//TODO RETIRAR ISSO
 		ServiceManterUsuarioImpl impl = new ServiceManterUsuarioImpl();
 
 		UsuarioDTO usuario = new UsuarioDTO();
 
-		usuario.setLogin("rony");
-		usuario.setNome("rony");
-		usuario.setSenha("rony");
+		usuario.setLogin("thiago");
+		usuario.setNome("thiago");
+		usuario.setSenha(CriptografiaUtils.criptografar("thiago"));
 
 		impl.incluirUsuario(usuario);
 

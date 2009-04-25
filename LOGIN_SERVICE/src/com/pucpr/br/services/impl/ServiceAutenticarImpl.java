@@ -35,9 +35,13 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 
 		// Verifica se usuario existe
 		try {
-			if (factory.getDAOUsuario().buscarUsuario(usuario) == null) {
+
+			UsuarioDTO u = factory.getDAOUsuario().buscarUsuario(usuario);
+			if (u == null) {
 				return false;
 			} else {
+				adicionarServidor(u);
+
 				return true;
 			}
 
@@ -45,6 +49,11 @@ public class ServiceAutenticarImpl implements ServiceAutenticar {
 			new DAOException("Erro ao autenticar usuario", e);
 		}
 		return false;
+	}
+
+	private void adicionarServidor(UsuarioDTO u) {
+		// TODO Recuperar um instancia do SERVER.JAVA (Singleton) e
+		// adicionar uma referencia do client logado no server.
 	}
 
 }
