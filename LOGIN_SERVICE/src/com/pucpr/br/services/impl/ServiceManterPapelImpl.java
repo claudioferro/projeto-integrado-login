@@ -3,7 +3,10 @@ package com.pucpr.br.services.impl;
 import java.util.List;
 
 import com.pucpr.br.dto.PapelDTO;
+import com.pucpr.br.factory.dao.DAOFactory;
+import com.pucpr.br.factory.dao.sql.DAOFactorySQL;
 import com.pucpr.br.services.ServiceManterPapel;
+import com.pucpr.br.uteis.DAOException;
 
 public class ServiceManterPapelImpl implements ServiceManterPapel {
 
@@ -20,7 +23,16 @@ public class ServiceManterPapelImpl implements ServiceManterPapel {
 	}
 
 	public boolean incluirPapel(PapelDTO papel) {
-		return false;
+
+		boolean retorno = false;
+		DAOFactory factory = DAOFactorySQL.getFabrica(DAOFactorySQL.SQL);
+
+		try {
+			retorno = factory.getDAOPapel().inserirPapel(papel);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 
 	public List<PapelDTO> listarPapeis() {

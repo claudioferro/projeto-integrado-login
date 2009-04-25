@@ -36,6 +36,10 @@ public class ConstantsFrontEnd {
 	public static final String MANTER_PAPEIS_MSG_NOVO = "Digite o nome do papel";
 	public static final String MANTER_PAPEIS_MSG_NOME_VAZIO = "Você precisa digitar o nome do papel.";
 	public static final String MANTER_PAPEIS_MSG_SELECAO = "Você precisa selecionar um Papel para fazer está ação";
+	public static final String MANTER_PAPEIS_MSG_INCLUIR_SUCESSO = "Novo papel incluido com sucesso!";
+	public static final String MANTER_PAPEIS_MSG_INCLUIR_ERRO = "Erro ao incluir novo papel!";
+	public static final String MANTER_PAPEIS_NOME_PAPEL = "nomePapel";
+	public static final String USUARIO_INCLUIR_PAPEL = "incluirPapel";
 
 	// TelaMonitorarUsuarios
 	public static final String MONITORAR_USUARIOS_TITULO_TELA = ":: MONITORAR USUÁRIOS - PROJETO INTEGRADO ::";
@@ -60,4 +64,5 @@ public class ConstantsFrontEnd {
 	public static final String AUTENTICAR_RETORNO = "retornoAutenticar";
 	public static final String PERMICOES_RETORNO = "retornoPermicoes";
 	public static final String NOVOUSUARIO_RETORNO = "retornoNovoUsuario";
+	public static final String NOVOPAPEL_RETORNO = "retornoNovoPapel";
 }

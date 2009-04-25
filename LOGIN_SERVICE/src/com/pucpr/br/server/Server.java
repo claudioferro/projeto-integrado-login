@@ -10,9 +10,11 @@ import java.util.List;
 
 import com.pucpr.br.dto.UsuarioDTO;
 import com.pucpr.br.services.ServiceAutenticar;
+import com.pucpr.br.services.ServiceManterPapel;
 import com.pucpr.br.services.ServiceManterPermissoes;
 import com.pucpr.br.services.ServiceManterUsuario;
 import com.pucpr.br.services.impl.ServiceAutenticarImpl;
+import com.pucpr.br.services.impl.ServiceManterPapelImpl;
 import com.pucpr.br.services.impl.ServiceManterPermissoesImpl;
 import com.pucpr.br.services.impl.ServiceManterUsuarioImpl;
 import com.pucpr.br.utils.ConstantsServices;
@@ -43,6 +45,7 @@ public class Server {
 		servicoManterUsuario(registry);
 		servicoAutenticar(registry);
 		servicoManterPermissoes(registry);
+		servicoManterPapeis(registry);
 	}
 
 	private void servicoManterUsuario(Registry registry) {
@@ -98,6 +101,27 @@ public class Server {
 					e);
 		} catch (AlreadyBoundException e) {
 			throw new RuntimeException("Erro ao criar stub Manter Permissões",
+					e);
+		}
+
+	}
+	
+	private void servicoManterPapeis(Registry registry) {
+		ServiceManterPapelImpl serviceManterPapel= new ServiceManterPapelImpl();
+
+		try {
+			ServiceManterPapel stubManterPapel= (ServiceManterPapel) UnicastRemoteObject
+					.exportObject(serviceManterPapel, 0);
+
+			registry.bind(ConstantsServices.SERVICE_MANTER_PAPEIS,
+					stubManterPapel);
+			System.out.println("Serviço: Manter Papel ........ OK");
+
+		} catch (RemoteException e) {
+			throw new RuntimeException("Erro ao criar stub Manter Papel",
+					e);
+		} catch (AlreadyBoundException e) {
+			throw new RuntimeException("Erro ao criar stub Manter Papel",
 					e);
 		}
 
