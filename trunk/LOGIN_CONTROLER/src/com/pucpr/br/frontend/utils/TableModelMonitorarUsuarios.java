@@ -38,21 +38,7 @@ public class TableModelMonitorarUsuarios extends AbstractTableModel {
 	 * @param listaUsuarios
 	 */
 	public TableModelMonitorarUsuarios(List<UsuarioDTO> listaUsuarios) {
-		
-		
-		
-		for(UsuarioDTO usuario : listaUsuarios)
-		{
-			
-		}
-		
-		// TODO : Lista fake, precisa ser removida.
-		for (int i = 0; i < 15; i++) {
-			UsuarioDTO usuario = new UsuarioDTO();
-			usuario.setLogin("" + i);
-			usuario.setNome("Nome é " + i);
-			listaUsuarios.add(usuario);
-		}
+
 		this.listaUsuarios = listaUsuarios;
 	}
 
